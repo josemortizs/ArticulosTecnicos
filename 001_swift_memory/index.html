@@ -10,52 +10,54 @@
             max-width: 1024px;
             padding: 20px;
         }
-
         header, footer {
             text-align: center;
         }
-
         article {
             margin-top: 20px;
         }
-
         section {
             margin-bottom: 20px;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
-
         th, td {
             padding: 10px;
             border: 1px solid #ccc;
             text-align: left;
         }
-
         th {
             background-color: #f2f2f2;
         }
-
         aside {
-        background-color: #f2f2f2; 
-        padding: 20px; 
-        border-radius: 10px; 
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-        margin-bottom: 20px; 
+            background-color: #f2f2f2; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            margin-bottom: 20px; 
         }
-
         aside p {
             margin: 0;
+        }
+        pre {
+            background-color: #1e1e1e;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Gestión de Memoria en Swift</h1>
-        <p>Una explicación sobre la gestión de memoria y cómo aprovechar las estructuras para optimizar tus abstracciones</p>
+        <h1>Gestión de la memoria en Swift</h1>
+        <p>Una explicación sobre la gestión de la memoria y cómo aprovechar las estructuras para optimizar tus abstracciones</p>
     </header>
     <article>
         <section>
@@ -71,7 +73,6 @@
                 característica de nuestras dos nuevas mejores amigas. 
             </p>
         </section>
-
         <section>
             <h2><b>Stack</b> y <b>Heap</b>, cara a cara</h2>
             <table>
@@ -155,6 +156,96 @@
                 Si queremos que nuestras abstracciones sean rápidas, y óptimas, necesitamos tener en cuenta todas y cada una de 
                 las cuestiones que acabamos de leer, más algunas otras como el despachado dinámico y estático de métodos que veremos 
                 en el siguiente artículo.
+            </p>
+        </section>
+        <section>
+            <h2>¿Hay código o no hay código?...</h2>
+            <p>
+                Vamos a verlo con código, usando los mismos ejemplos que puso Apple en la WWDC 2016, conferencia "Understanding Swift Performance".
+            </p>
+            <div style="display: flex;">
+                <pre style="flex: 3; margin-right: 10px;">
+                    <code>
+    struct Point {
+        var x, y: Double
+    }
+
+    let point1 = Point(x: 0, y: 1)
+    var point2 = point1
+    point2.x = 5
+                    </code>
+                </pre>
+                <img src="images/stack_03.png" alt="Representación gráfica de cómo quedaría el stack tras el código" style="flex: 1; max-width: calc(25% - 10px); border-radius: 5px;">
+            </div>
+            <p>
+                Este sencillo ejemplo no haría uso del Heap, ambas estructuras serían almacenadas en la Stack de memoria correspondiente. Hemos agregado una
+                representación de cómo quedaría dicho Stack. Para ello, y por tratarse solo de una representación, sin más ambición que el de aportar
+                una ayuda visual a la explicación, hemos usado la típica hoja de cálculo a la que todos estamos acostumbrados. ¿Cómo sería su comportamiento
+                en memoria si usásemos una clase?, veámoslo con un ejemplo: 
+            </p>
+        </p>
+        <div style="display: flex;">
+            <pre style="flex: 3; margin-right: 10px;">
+                <code>
+    class CPoint {
+        var x, y: Double
+        init(x: Double, y: Double) {
+            self.x = x
+            self.y = y
+        }
+    }
+    
+    let cpoint1 = CPoint(x: 0, y: 0)
+    let cpoint2 = cpoint1
+    cpoint2.x = 5
+                </code>
+            </pre>
+            <img src="images/stack_and_heap_01.png" alt="Representación gráfica de cómo quedaría el stack, y el heap, tras el código" style="flex: 1; max-width: calc(25% - 10px); border-radius: 5px;">
+        </div>
+        <p>
+            Cómo podemos apreciar en la representación de memoria, para este ejemplo, Swift tiene que hacer uso del Heap para almacenar los datos del 
+            objeto <b>cpoint1</b>, con todos los costes de rendimiento, seguridad, etc, que hemos visto en el bloque anterior. Además podemos observar 
+            que Swift sigue teniendo que hacer uso de la Stack correspondiente para almacenar las referencias a <b>101C1D580</b>, que es un referencia de memoria
+            de ejemplo, para simular una real donde se almacenarían los datos. Muchos, al llegar hasta aquí, os preguntaréis por qué hay cuatro "espacios" de
+            memoria si solo necesitamos almacenar el valor de las propiedades "x" e "y". Lo veremos en más detalle más adelante, pero, en resumen, uno de los 
+            "espacios" lo usa ARC para almacenar el número de "referencias activas" que apuntan a dicha posición de memoria y el otro se usa para almacenar el 
+            tipo de objeto. Esto último lo veremos en más profundidad en el siguiente artículo pues es importante, debido a la <b>Herencia</b>.
+        </p>
+        </section>
+        <section>
+            <h2>Structs ineficientes y alternativas a éstos</h2>
+            <p>
+                Revisemos la siguiente implementación para aprender, con un ejemplo de Apple, de algunas trampas en las que podemos caer al implementar nuestras
+                funcionalidades, abstracciones, etc:
+            </p>
+            <pre style="flex: 3; margin-right: 10px;">
+                <code>
+    enum Color { case blue, green, gray }
+    enum Orientation { case left, right }
+    enum Tail { case none, tail, buble }
+
+    var cache [String: UIImage]()
+
+    func makeBalloon(_ color: Color, orientation: Orientation, tail: Tail) -> UIImage {
+        let key = "\(color):\(orientation):\(tail)"
+        if let image = cache[key] { return image }
+        // Aquí iría el resto de implementación para devolver el UIImage correspondiente,
+        // no nos vale para el ejemplo así que la obvio.
+    }
+                </code>
+            </pre>
+            <p>
+                La función se ocupa de crear los típicos "globitos" que se usan en viñetas, comics, etc, para mostrar una conversación 
+                con un lazo-flecha apuntando hacia la persona que está hablando. Como tanto el color, como la orientación y el tipo de lazo son finitos
+                y pueden parametrizarse, contabilizarse, etc, nuestro desarrollador ha usado enums para establecer estos parámetros de forma muy acertada.
+                También ha creado un array para almacenar diccionarios y en base a una key de tipo String poder devolver su UIImage correspondiente si 
+                esta ya ha sido procesada y así no tener que volver a procesar un "globito" si ya ha sido procesado anteriormente. 
+            </p>
+            <p>
+                Por desgracia no ha tenido en cuenta que dichos Strings harán uso del Heap e incurrirán en conteo de referencias, necesidad de protección
+                de la información, acceso más lento, etc. <br>
+                Y aquí es dónde podríamos estar pensando: "¿Pero el String en Swift no se implementa mediante una estructura?, ¿Las estructuras no tenían
+                paso por valor?, ¿no nos has contado que las estructuras usan el Stack?"
             </p>
         </section>
     </article>
