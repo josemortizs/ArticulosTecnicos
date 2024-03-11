@@ -175,7 +175,7 @@
     point2.x = 5
                     </code>
                 </pre>
-                <img src="images/stack_03.png" alt="Representación gráfica de cómo quedaría el stack tras el código" style="flex: 1; max-width: calc(25% - 10px); border-radius: 5px;">
+                <img src="images/stack_03.png" alt="Representación gráfica de cómo quedaría el stack tras el código" style="flex: 1; max-width: calc(35% - 10px); max-height: 100%; border-radius: 5px;">
             </div>
             <p>
                 Este sencillo ejemplo no haría uso del Heap, ambas estructuras serían almacenadas en la Stack de memoria correspondiente. Hemos agregado una
@@ -187,7 +187,7 @@
         <div style="display: flex;">
             <pre style="flex: 3; margin-right: 10px;">
                 <code>
-    class CPoint {
+    class Point {
         var x, y: Double
         init(x: Double, y: Double) {
             self.x = x
@@ -195,21 +195,30 @@
         }
     }
     
-    let cpoint1 = CPoint(x: 0, y: 0)
-    let cpoint2 = cpoint1
-    cpoint2.x = 5
+    let point1 = Point(x: 0, y: 0)
+    let point2 = point1
+    point2.x = 5
                 </code>
             </pre>
-            <img src="images/stack_and_heap_01.png" alt="Representación gráfica de cómo quedaría el stack, y el heap, tras el código" style="flex: 1; max-width: calc(25% - 10px); border-radius: 5px;">
+            <img src="images/stack_and_heap_01.png" alt="Representación gráfica de cómo quedaría el stack, y el heap, tras el código" style="flex: 1; max-width: calc(45% - 10px); max-height: 100%; border-radius: 5px;">
         </div>
         <p>
             Cómo podemos apreciar en la representación de memoria, para este ejemplo, Swift tiene que hacer uso del Heap para almacenar los datos del 
-            objeto <b>cpoint1</b>, con todos los costes de rendimiento, seguridad, etc, que hemos visto en el bloque anterior. Además podemos observar 
-            que Swift sigue teniendo que hacer uso de la Stack correspondiente para almacenar las referencias a <b>101C1D580</b>, que es un referencia de memoria
-            de ejemplo, para simular una real donde se almacenarían los datos. Muchos, al llegar hasta aquí, os preguntaréis por qué hay cuatro "espacios" de
-            memoria si solo necesitamos almacenar el valor de las propiedades "x" e "y". Lo veremos en más detalle más adelante, pero, en resumen, uno de los 
-            "espacios" lo usa ARC para almacenar el número de "referencias activas" que apuntan a dicha posición de memoria y el otro se usa para almacenar el 
-            tipo de objeto. Esto último lo veremos en más profundidad en el siguiente artículo pues es importante, debido a la <b>Herencia</b>.
+            objeto creado, con todos los costes de rendimiento, seguridad, etc, que hemos visto en el bloque anterior. Además podemos observar 
+            que Swift sigue teniendo que hacer uso de la Stack correspondiente para almacenar las referencias a <b>101C1D580</b>, tanto para el objeto point1
+            como para el objeto point2. 
+        </p>
+        <p>
+            <b>101C1D580</b> es un referencia de memoria de ejemplo, para simular una real donde se almacenarían los datos. 
+            Muchos, al llegar hasta aquí, os preguntaréis por qué hay cuatro "espacios" de memoria cuando para "almacenar" la estructura solo hacían falta dos. 
+            Veamos, uno de los espacios, al que llamaremos <b>refCount</b>, es usado por ARC para almacenar el número de "referencias activas" que apuntan a dicha posición 
+            de memoria y el otro se usa para almacenar el tipo de objeto. Cuando hablemos del despachado dinámico y estático de métodos de clase este "espacio" cobrará su
+            debida importancia, por ahora, obviémoslo, Swift lo necesita y lo reserva en consecuencia. 
+        </p>
+        <p>
+            Por cierto, cuando este <b>refCount</b> llega a 0 implica que ya no está siendo "apuntado" por ningún objeto, con lo que Swift procede a reciclarlo de la memoria.
+            ¿Alguna vez os han preguntado en una entrevista por los "retain cycles"?, ¿"circular references"?, no lo veremos hoy, pero como suele decirse: por aquí van los 
+            tiros...
         </p>
         </section>
         <section>
