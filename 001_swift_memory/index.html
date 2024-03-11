@@ -125,19 +125,24 @@
                 <p>
                     <b>(*)</b> ¿Quiere decir esto que siempre que cree un tipo de dato mediante <b>Struct</b> sus objetos van a 
                     ser almacenados en el <b>Stack</b>?, no, desgraciadamente no es tan sencillo. 
+                    <br><br>
                 </p>
                 <p>
                     <b>(**)</b> Cada hilo de ejecución tiene su propio <b>Stack</b> de memoria mientras que el <b>Heap</b> es compartido por 
                     todos los hilos. Como varios hilos de ejecución pueden asignar memoria en el <b>Heap</b> al mismo tiempo éste debe 
                     protegerse mediante bloqueos, semáforos u otros mecanismos de sincronización. Esto supone un coste bastante
                     grande de rendimiento.
+                    <br><br>
                 </p>
                 <p>
                     <b>(***)</b> La gestión de la memoria que hace Swift mediante el <b>Stack</b>, de forma estática, es muy eficiente. 
                     La pila funciona mediante un sistema de LIFO, imagen 1. Swift puede agregar la información que necesite a la 
-                    pila, "Allocation", de forma muy rápida y limpiarla de ésta igual de rápido, "Deallocation", imagen 2.
+                    pila, "Allocation", de forma muy rápida y limpiarla de ésta igual de rápido, "Deallocation".
                     <br><br>
-                    Mientras que la asignación, dinámica, en el <b>Heap</b> (montón), implica que debamos encontrar un espacio en memoria 
+                    En la Imagen 2 podemos observar otra representación gráfica de cómo Swift agregaría datos al Stack y cómo los liberaría,
+                    cuando ya no fuesen necesarios, mediante dicho sistema LIFO (Last in, First Out).
+                    <br><br>
+                    Mientras tanto, la asignación dinámica en el <b>Heap</b> (montón), implica que debamos encontrar un espacio en memoria 
                     con el tamaño apropiado y, cuando ya no la necesitemos, desasignarla adecuadamente, incurriendo en una gestión 
                     mucho más compleja, y por ende menos eficiente, que la usada para almacenar en la <b>Stack</b> (pila).
                 </p>
