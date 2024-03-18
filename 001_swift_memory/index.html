@@ -8,49 +8,95 @@
         body {
             margin: 0 auto;
             max-width: 1024px;
-            padding: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
         }
+
         header, footer {
             text-align: center;
         }
+
         article {
             margin-top: 20px;
         }
+
         section {
             margin-bottom: 20px;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
+
         th, td {
             padding: 10px;
             border: 1px solid #ccc;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
         }
+
         aside {
-            background-color: #f2f2f2; 
-            padding: 20px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-            margin-bottom: 20px; 
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
+
         aside p {
             margin: 0;
         }
+
         pre {
             background-color: #1e1e1e;
             color: #f8f8f2;
             padding: 20px;
             border-radius: 5px;
             overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
         }
+
         code {
             font-family: 'Courier New', Courier, monospace;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            border-radius: 5px;
+        }
+
+        .left-aligned {
+            align-self: flex-start;
+            margin-right: 10%;
+        }
+
+        .right-aligned {
+            align-self: flex-end;
+            margin-left: 10%;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        p {
+            margin-bottom: 5px;
+        }
+
+        footer p {
+            font-size: 14px;
+            color: #888;
         }
     </style>
 </head>
@@ -64,7 +110,7 @@
             <h2>Introducción</h2>
             <p>
                 En Swift, como en muchos otros lenguajes de programación, la gestión de la memoria es una parte esencial para 
-                garantizar un rendimiento óptimo y prevenir problemas como fugas de memoria o accesos inválidos a la memoria. 
+                garantizar un rendimiento óptimo y prevenir problemas como fugas de memoria o accesos inválidos a la misma. 
                 En Swift, la gestión de la memoria se lleva a cabo principalmente en dos áreas: la pila (<b>Stack</b>) y el montón (<b>Heap</b>).
                 Paciencia aquí, acabarás familiarizado con estos dos términos pronto...
                 <br><br>
@@ -168,63 +214,41 @@
             <p>
                 Vamos a verlo con código, usando los mismos ejemplos que puso Apple en la WWDC 2016, conferencia "Understanding Swift Performance".
             </p>
-            <div style="display: flex;">
-                <pre style="flex: 3; margin-right: 10px;">
-                    <code>
-    struct Point {
-        var x, y: Double
-    }
-
-    let point1 = Point(x: 0, y: 1)
-    var point2 = point1
-    point2.x = 5
-                    </code>
-                </pre>
-                <img src="images/stack_03.png" alt="Representación gráfica de cómo quedaría el stack tras el código" style="flex: 1; max-width: calc(35% - 10px); max-height: 100%; border-radius: 5px;">
+            <div class="image-container">
+                <img class="left-aligned" src="images/code_01.png" alt="code_01.png">
+            </div>
+            <div class="image-container">
+                <img class="right-aligned" src="images/memory_rep_01.png" alt="memory_rep_01.png">
             </div>
             <p>
                 Este sencillo ejemplo no haría uso del Heap, ambas estructuras serían almacenadas en la Stack de memoria correspondiente. Hemos agregado una
-                representación de cómo quedaría dicho Stack. Para ello, y por tratarse solo de una representación, sin más ambición que el de aportar
-                una ayuda visual a la explicación, hemos usado la típica hoja de cálculo a la que todos estamos acostumbrados. ¿Cómo sería su comportamiento
-                en memoria si usásemos una clase?, veámoslo con un ejemplo: 
+                representación de cómo quedaría dicho Stack en memoria, solo se trata de una representación gráfica, sin más pretensión que la de aportar
+                una ayuda visual a la explicación. ¿Cómo sería su comportamiento en memoria si usásemos una clase?, veámoslo con un ejemplo: 
             </p>
-        </p>
-        <div style="display: flex;">
-            <pre style="flex: 3; margin-right: 10px;">
-                <code>
-    class Point {
-        var x, y: Double
-        init(x: Double, y: Double) {
-            self.x = x
-            self.y = y
-        }
-    }
-    
-    let point1 = Point(x: 0, y: 0)
-    let point2 = point1
-    point2.x = 5
-                </code>
-            </pre>
-            <img src="images/stack_and_heap_01.png" alt="Representación gráfica de cómo quedaría el stack, y el heap, tras el código" style="flex: 1; max-width: calc(45% - 10px); max-height: 100%; border-radius: 5px;">
-        </div>
-        <p>
-            Cómo podemos apreciar en la representación de memoria, para este ejemplo, Swift tiene que hacer uso del Heap para almacenar los datos del 
-            objeto creado, con todos los costes de rendimiento, seguridad, etc, que hemos visto en el bloque anterior. Además podemos observar 
-            que Swift sigue teniendo que hacer uso de la Stack correspondiente para almacenar las referencias a <b>101C1D580</b>, tanto para el objeto point1
-            como para el objeto point2. 
-        </p>
-        <p>
-            <b>101C1D580</b> es un referencia de memoria de ejemplo, para simular una real donde se almacenarían los datos. 
-            Muchos, al llegar hasta aquí, os preguntaréis por qué hay cuatro "espacios" de memoria cuando para "almacenar" la estructura solo hacían falta dos. 
-            Veamos, uno de los espacios, al que llamaremos <b>refCount</b>, es usado por ARC para almacenar el número de "referencias activas" que apuntan a dicha posición 
-            de memoria y el otro se usa para almacenar el tipo de objeto. Cuando hablemos del despachado dinámico y estático de métodos de clase este "espacio" cobrará su
-            debida importancia, por ahora, obviémoslo, Swift lo necesita y lo reserva en consecuencia. 
-        </p>
-        <p>
-            Por cierto, cuando este <b>refCount</b> llega a 0 implica que ya no está siendo "apuntado" por ningún objeto, con lo que Swift procede a reciclarlo de la memoria.
-            ¿Alguna vez os han preguntado en una entrevista por los "retain cycles"?, ¿"circular references"?, no lo veremos hoy, pero como suele decirse: por aquí van los 
-            tiros...
-        </p>
+            <div class="image-container">
+                <img class="left-aligned" src="images/code_02.png" alt="code_01.png">
+            </div>
+            <div class="image-container">
+                <img class="right-aligned" src="images/memory_rep_02.png" alt="memory_rep_01.png">
+            </div>
+            <p>
+                Cómo podemos apreciar en la representación de memoria, para este ejemplo, Swift tiene que hacer uso del Heap para almacenar los datos del 
+                objeto creado, con todos los costes de rendimiento, seguridad, etc, que hemos visto en el bloque anterior. Además podemos observar 
+                que Swift sigue teniendo que hacer uso de la Stack correspondiente para almacenar las referencias a <b>101C1D580</b>, tanto para el objeto point1
+                como para el objeto point2. 
+            </p>
+            <p>
+                <b>101C1D580</b> es un referencia de memoria de ejemplo, para simular una real donde se almacenarían los datos. 
+                Muchos, al llegar hasta aquí, os preguntaréis por qué hay cuatro "espacios" de memoria cuando para "almacenar" la estructura solo hacían falta dos. 
+                Veamos, uno de los espacios, al que llamaremos <b>refCount</b>, es usado por ARC para almacenar el número de "referencias activas" que apuntan a dicha posición 
+                de memoria y el otro se usa para almacenar el tipo de objeto. Cuando hablemos del despachado dinámico y estático de métodos de clase este "espacio" cobrará su
+                debida importancia, por ahora, obviémoslo, Swift lo necesita y lo reserva en consecuencia. 
+            </p>
+            <p>
+                Por cierto, cuando este <b>refCount</b> llega a 0 implica que ya no está siendo "apuntado" por ningún objeto, con lo que Swift procede a reciclarlo de la memoria.
+                ¿Alguna vez os han preguntado en una entrevista por los "retain cycles"?, ¿"circular references"?, no lo veremos hoy, pero como suele decirse: por aquí van los 
+                tiros...
+            </p>
         </section>
         <section>
             <h2>Structs ineficientes y alternativas a éstos</h2>
@@ -232,28 +256,15 @@
                 Revisemos la siguiente implementación para aprender, con un ejemplo de Apple, de algunas trampas en las que podemos caer al implementar nuestras
                 funcionalidades, abstracciones, etc:
             </p>
-            <pre style="flex: 3; margin-right: 10px;">
-                <code>
-    enum Color { case blue, green, gray }
-    enum Orientation { case left, right }
-    enum Tail { case none, tail, buble }
-
-    var cache [String: UIImage]()
-
-    func makeBalloon(_ color: Color, orientation: Orientation, tail: Tail) -> UIImage {
-        let key = "\(color):\(orientation):\(tail)"
-        if let image = cache[key] { return image }
-        // Aquí iría el resto de implementación para devolver el UIImage correspondiente,
-        // no nos vale para el ejemplo así que la obvio.
-    }
-                </code>
-            </pre>
+            <div class="image-container">
+                <img src="images/code_03.png" alt="code_03.png">
+            </div>
             <p>
                 La función se ocupa de crear los típicos "globitos" que se usan en viñetas, comics, etc, para mostrar una conversación 
                 con un lazo-flecha apuntando hacia la persona que está hablando. Como tanto el color, como la orientación y el tipo de lazo son finitos
                 y pueden parametrizarse, contabilizarse, etc, nuestro desarrollador ha usado enums para establecer estos parámetros de forma muy acertada.
                 También ha creado un array para almacenar diccionarios y en base a una key de tipo String poder devolver su UIImage correspondiente si 
-                esta ya ha sido procesada y así no tener que volver a procesar un "globito" si ya ha sido procesado anteriormente. 
+                esta ya ha sido procesada anteriormente. 
             </p>
             <p>
                 Por desgracia no ha tenido en cuenta que dichos Strings harán uso del Heap e incurrirán en conteo de referencias, necesidad de protección
@@ -270,81 +281,48 @@
                 ¿Cómo podríamos optimizar nuestro código?, Apple nos da la siguiente 
                 alternativa: 
             </p>
-            <pre style="flex: 3; margin-right: 10px;">
-                <code>
-    enum Color { case blue, green, gray }
-    enum Orientation { case left, right }
-    enum Tail { case none, tail, buble }
-
-    struct Attributes: Hashable {
-        var color: Color
-        var orientation: Orientation
-        var tail: Tail
-    }
-
-    var cache = [Attributes: UIImage]()
-
-    func makeBalloon(_ color: Color, orientation: Orientation, tail: Tail) -> UIImage {
-        let key = Attributes(color: color, orientation: orientation, tail: tail)
-        if let image = cache[key] { return image }
-        // Aquí iría el resto de implementación para devolver el UIImage correspondiente,
-        // no nos vale para el ejemplo así que la obvio.
-        return UIImage()
-    }
-                </code>
-            </pre>
+            <div class="image-container">
+                <img src="images/code_04.png" alt="code_04.png">
+            </div>
             <p>
                 Podemos crear una estructura en la que "almacenar" los valores que necesitamos para la creación de 
                 nuestro "balloon". Necesitamos que implemente el protocolo Hashable para que pueda hacer de clave 
                 en el diccionario. Con esto, además, evitaríamos usar claves que bien podrían no tener nada que ver
                 con el contenido a almacenar. Pero, ¿realmente es notable el cambio?, usemos a nuestro buen amigo 
-                XCTest para realizar un par de pruebas de rendimiento: 
+                XCTest para realizar unas cuantas pruebas de rendimiento, en una de ellas usaremos una estructura 
+                para generar la clave que se usaría en el diccionario, en otra usaríamos una clase, también con 
+                el protocolo Hashable implementado, y por último usaríamos un String, generándolo igual a cómo se 
+                hacía en el ejemplo inicial: 
             </p>
-            <pre style="flex: 3; margin-right: 10px;">
-                <code>
-    import XCTest
-
-    enum Color { case blue, green, gray }
-    enum Orientation { case left, right }
-    enum Tail { case none, tail, buble }
-
-    struct Attributes: Hashable {
-        var color: Color
-        var orientation: Orientation
-        var tail: Tail
-    }
-
-    final class MemoryHeapAndStacksTests: XCTestCase {
-        
-        func testWithString() throws {
-            self.measure {
-                for _ in 1...1_000_000 {
-                    _ = "\(Color.blue):\(Orientation.left):\(Tail.buble)"
-                }
-            }
-        }
-        
-        func testWithStruct() throws {
-            self.measure {
-                for _ in 1...1_000_000 {
-                    _ = Attributes(color: .blue, orientation: .left, tail: .buble)
-                }
-            }
-        }
-    }
-                </code>
-            </pre>
+            <div class="image-container">
+                <img src="images/code_05.png" alt="code_05.png">
+            </div>
             <p>
-                El primer test, testWithString, tardó 1.9 segundos de media en ejecutarse (se ejecuta 10 veces y nos 
-                muestra la media de todas las ejecuciones) mientras que el segundo, testWithStruct, solo 0.17 segundos.
-                No parece poca la diferencia...
+                El primer test, usando Strings, tardó 1.7 segundos de media en ejecutarse (se ejecuta 10 veces y nos 
+                muestra la media de todas las ejecuciones). El segundo, con clases, 0.198 segundos y el tercero, usando
+                estructuras, 0.160 segundos.
             </p>
             <div style="display: flex; justify-content: space-between;">
+                <img src="images/average_01.png" alt="Muestra el tiempo que tarda en 
+                 el primer test: 1.9 segundos" style="max-width: calc(33% - 10px); border-radius: 5px;">
+                <img src="images/average_02.png" alt="Muestra el tiempo que tarda en 
+                el segundo test: 0.17 segundos" style="max-width: calc(33% - 10px); border-radius: 5px;">
                 <img src="images/average_03.png" alt="Muestra el tiempo que tarda en 
-                 el primer test: 1.9 segundos" style="max-width: calc(50% - 10px); border-radius: 5px;">
-                <img src="images/average_04.png" alt="Muestra el tiempo que tarda en 
-                el segundo test: 0.17 segundos" style="max-width: calc(50% - 10px); border-radius: 5px;">
+                el segundo test: 0.17 segundos" style="max-width: calc(33% - 10px); border-radius: 5px;">
             </div>
+            <p>
+                Con estos resultados podemos apreciar el alto coste de la asignación de strings en memoria. Por otra parte, 
+                la diferencia entre usar estructuras y clases puede no parecer muy grande, aproximadamente un 19%, pero 
+                hay que tener en cuenta que esto es solo el coste de su asignación, habría que sumarle también el posterior
+                coste del uso de la clase en relación a la estructura...
+            </p>
+        </section>
+        <section>
+            <h2>Estructuras más ineficientes que las clases</h2>
+            <p>
+                ¿Quiere esto decir que una estructura va a ser siempre más eficiente que una clase?, de nuevo, por desgracia, no.
+                Y, de nuevo, dependerá de la implementación de la propia estructura. revisemos el siguiente ejemplo:
+            </p>
         </section>
     </article>
     <footer>
