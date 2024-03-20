@@ -25,16 +25,20 @@ extension MemoryAddress where T: AnyObject {
     }
 }
 
-struct Label {
+class Label {
     var text: String
     var font: UIFont
+    init(text: String, font: UIFont) {
+        self.text = text
+        self.font = font
+    }
 }
 
 var label1 = Label(text: "Hola!", font: .boldSystemFont(ofSize: 10))
 var label2 = label1
 
-let structInstanceAddress = MemoryAddress(of: &label1)
-let structInstanceAddress2 = MemoryAddress(of: &label2)
+let structInstanceAddress = MemoryAddress(of: label1)
+let structInstanceAddress2 = MemoryAddress(of: label2)
 
 print(String(format: "%018p", structInstanceAddress.intValue))
 
@@ -45,3 +49,6 @@ let classInstanceAddress2 = MemoryAddress(of: label2.font)
 
 print(String(format: "%018p", classInstanceAddress.intValue))
 print(String(format: "%018p", classInstanceAddress2.intValue))
+
+
+print(UUID().uuidString)

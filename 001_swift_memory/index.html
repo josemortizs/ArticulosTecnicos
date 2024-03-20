@@ -321,7 +321,73 @@
             <h2>Estructuras más ineficientes que las clases</h2>
             <p>
                 ¿Quiere esto decir que una estructura va a ser siempre más eficiente que una clase?, de nuevo, por desgracia, no.
-                Y, de nuevo, dependerá de la implementación de la propia estructura. revisemos el siguiente ejemplo:
+                Y, de nuevo, dependerá de la implementación de la propia estructura. En la implementación de ejemplo 
+                para la estructura Point vimos que no se hacía uso del Heap, no había recuento de referencias, todo se 
+                almacenaba en la Stack, etc. ¿Pero qué pasaría con estructuras más complejas?, revisemos el siguiente 
+                ejemplo: 
+            </p>
+            <div class="image-container">
+                <img src="images/code_07.png" alt="code_06.png">
+            </div>
+            <p>
+                Nos encontramos con una estructura que tiene dos propiedades, una de tipo String y otra de tipo 
+                UIFont. Como vimos en la sección anterior, String hace uso del Heap aún estando implementada como
+                Struct y UIFont es una clase por lo que también haría uso de éste. 
+            </p>
+            <p>
+                ¿En qué se traduce esto?, la instancia <b>label1</b> tendría dos referencias, una para el String
+                y otra para el UIFont. Y al hacer la copia con <i>"let label2 = label1"</i> estaríamos agregando
+                dos referencias más, una para cada una de las propiedades. 
+            </p>
+            <p>
+                En la conferencia de desarrolladores de 2016, Apple, comentaba que la gestión del recuento de dichas 
+                referencias no era algo trivial debido a que se realizaba con mucha frecuencia. 
+            </p>
+            <p>
+                En este caso particular, el uso de estructuras incurriría en una sobrecarga del doble de referencias
+                que las que habría tenido que gestionar de tratarse de una clase. 
+            </p>
+        </section>
+        <section>
+            <h2>Optimicemos otro ejemplo</h2>
+            <p>
+                Revisemos otro ejemplo, en este caso se trata de una abstracción para un archivo adjunto que podría 
+                ser usado por un programa de gestión de correo electrónico. 
+            </p>
+            <div class="image-container">
+                <img src="images/code_08.png" alt="code_06.png">
+            </div>
+            <p>
+                <!-- TODO: Explicar el código, con el constructor falible -->
+            </p>
+            <p>
+                Si tenemos en cuenta todo lo leído en la sección anterior, esta estructura, estaría incurriendo en 
+                un mayor recuento de referencias. ¿Vemos cómo mejorarlo?
+                <!-- TODO: Revisar implementación de URL-->
+            </p>
+            <!-- TODO: Sustituir code/pre por imagen-->
+            <div class="image-container">
+                <img src="images/code_09.png" alt="code_06.png">
+            </div>
+            <p>
+                En primer lugar podemos usar 
+                <a href="https://developer.apple.com/documentation/foundation/uuid">UUID</a>, disponible desde 
+                iOS 6.0. Usando <b>UUID</b> conseguimos un identificador de 128 bits, generado aleatoriamente.
+                Así, de paso, evitamos que pueda usarse como identificador único cualquier String que bien 
+                pudiera no tener nada que ver con su propósito. <b>UUID</b> es un tipo de dato por valor, 
+                almacena esos 128 bits directamente en la estructura, en su Stack correspondiente, sin hacer 
+                uso de ningún tipo de sobrecarga en el conteo de referencias.
+            </p>
+            <p>
+                Para el tipo de adjunto podemos usar los enumerados, que en Swift son muy potentes. Así pasamos, 
+                de nuevo, de tener una propiedad con recuento de referencias, y uso del Heap, a otra propiedad con 
+                almacenamiento en la propia estructura, dentro del Stack correspondiente. 
+            </p>
+            <p>
+                Seguiríamos teniendo que gestionar una referencia, ya que la propiedad de tipo URL, aún siendo 
+                implementada como Struct, requiere recuento de referencias ya que se asignaría directamente en 
+                el Heap. Sería un caso similar al de String, ambos son estructuras, pero su implementación interna
+                hace que requieran del uso de referencias.
             </p>
         </section>
     </article>

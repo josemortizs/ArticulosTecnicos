@@ -14,6 +14,7 @@
 		427D81922B9F56B900E66ACE /* MemoryHeapAndStacksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427D81912B9F56B900E66ACE /* MemoryHeapAndStacksTests.swift */; };
 		427D819C2B9F56B900E66ACE /* MemoryHeapAndStacksUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427D819B2B9F56B900E66ACE /* MemoryHeapAndStacksUITests.swift */; };
 		427D819E2B9F56B900E66ACE /* MemoryHeapAndStacksUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427D819D2B9F56B900E66ACE /* MemoryHeapAndStacksUITestsLaunchTests.swift */; };
+		42B813822BA99D16006FEA45 /* AttachmentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B813812BA99D16006FEA45 /* AttachmentTests.swift */; };
 		BA7159E32BA8ED120021007C /* StructsWithClassProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7159E22BA8ED120021007C /* StructsWithClassProperties.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		427D81972B9F56B900E66ACE /* MemoryHeapAndStacksUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemoryHeapAndStacksUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		427D819B2B9F56B900E66ACE /* MemoryHeapAndStacksUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryHeapAndStacksUITests.swift; sourceTree = "<group>"; };
 		427D819D2B9F56B900E66ACE /* MemoryHeapAndStacksUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryHeapAndStacksUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		42B813812BA99D16006FEA45 /* AttachmentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentTests.swift; sourceTree = "<group>"; };
 		BA7159E22BA8ED120021007C /* StructsWithClassProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructsWithClassProperties.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +119,7 @@
 			children = (
 				427D81912B9F56B900E66ACE /* MemoryHeapAndStacksTests.swift */,
 				BA7159E22BA8ED120021007C /* StructsWithClassProperties.swift */,
+				42B813812BA99D16006FEA45 /* AttachmentTests.swift */,
 			);
 			path = MemoryHeapAndStacksTests;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA7159E32BA8ED120021007C /* StructsWithClassProperties.swift in Sources */,
+				42B813822BA99D16006FEA45 /* AttachmentTests.swift in Sources */,
 				427D81922B9F56B900E66ACE /* MemoryHeapAndStacksTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
