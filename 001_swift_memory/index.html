@@ -111,10 +111,10 @@
             <p>
                 En Swift, como en muchos otros lenguajes de programación, la gestión de la memoria es una parte esencial para 
                 garantizar un rendimiento óptimo y prevenir problemas como fugas de memoria o accesos inválidos a la misma. 
-                En Swift, la gestión de la memoria se lleva a cabo principalmente en dos áreas: la pila (<b>Stack</b>) y el montón (<b>Heap</b>).
+                En Swift, la gestión de la memoria se lleva a cabo principalmente en dos áreas: la pila (<b>Stack</b>) y el montículo (<b>Heap</b>).
                 Paciencia aquí, acabarás familiarizado con estos dos términos pronto...
                 <br><br>
-                Listemos algunas diferencias entre <b>Heap</b> y <b>Stack</b>, montón y pila. No os molestéis en intentar memorizar nada, esta 
+                Listemos algunas diferencias entre <b>Heap</b> y <b>Stack</b>, montículo y pila. No os molestéis en intentar memorizar nada, esta 
                 tabla solo busca ser una referencia, un sitio al que podamos volver si tenemos dudas sobre una determinada
                 característica de nuestras dos nuevas mejores amigas. 
             </p>
@@ -188,7 +188,7 @@
                     En la Imagen 2 podemos observar otra representación gráfica de cómo Swift agregaría datos al Stack y cómo los liberaría,
                     cuando ya no fuesen necesarios, mediante dicho sistema LIFO (Last in, First Out).
                     <br><br>
-                    Mientras tanto, la asignación dinámica en el <b>Heap</b> (montón), implica que debamos encontrar un espacio en memoria 
+                    Mientras tanto, la asignación dinámica en el <b>Heap</b> (montículo), implica que debamos encontrar un espacio en memoria 
                     con el tamaño apropiado y, cuando ya no la necesitemos, desasignarla adecuadamente, incurriendo en una gestión 
                     mucho más compleja, y por ende menos eficiente, que la usada para almacenar en la <b>Stack</b> (pila).
                 </p>
@@ -327,7 +327,7 @@
                 ejemplo: 
             </p>
             <div class="image-container">
-                <img src="images/code_07.png" alt="code_06.png">
+                <img src="images/code_06.png" alt="code_06.png">
             </div>
             <p>
                 Nos encontramos con una estructura que tiene dos propiedades, una de tipo String y otra de tipo 
@@ -388,6 +388,34 @@
                 implementada como Struct, requiere recuento de referencias ya que se asignaría directamente en 
                 el Heap. Sería un caso similar al de String, ambos son estructuras, pero su implementación interna
                 hace que requieran del uso de referencias.
+            </p>
+        </section>
+        <section>
+            <h2>Envío de métodos (estático y dinámico)</h2>
+            <p>
+                ¿Recordáis que cuando hablábamos de espacios de memoria hacíamos referencia a dos espacios extra 
+                en el caso de usar clases?, si volvéis atrás en este mismo artículo encontraréis que uno de esos
+                "espacios extra", Swift, lo dedicaba a guardar el recuento de referencias. Bien, veamos a qué 
+                dedica Swift el restante.  
+            </p>
+            <p>
+                Cuando usamos un método de clase, en tiempo de ejecución, Swift necesita saber que implementación 
+                del método es la correcta. Si es capaz de determinarlo en tiempo de compilación, Swift, podrá 
+                optimizar nuestro código de forma más eficiente. Esto es lo que llamamos "static dispatch", que 
+                puede ser traducido como despachado estático, envío estático, etc. 
+            </p>
+            <p>
+                Este sistema de "envío", o "despachado", contrasta con el llamado "dynamic dispatch", envío o 
+                despachado dinámico. En este sistema, Swift, no podrá determinar en tiempo de 
+                compilación la implementación adecuada por lo que deberá "buscarla" en tiempo de ejecución 
+                y servirla. Esta búsqueda, en sí misma, no supone una pérdida de rendimiento excesiva en
+                contraste al envío estático, pero sí que perdemos todas aquellas optimizaciones que, en 
+                tiempo de compilación, Swift podría haber aplicado a nuestro código.
+            </p>
+            <p>
+                Ok, volvamos al código para verlo con un ejemplo. Volvamos a la estructura Point y agreguémosle 
+                un método para dibujar el punto, no le agregaremos ninguna implementación porque no es 
+                importante para el caso: 
             </p>
         </section>
     </article>

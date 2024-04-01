@@ -4,5 +4,6 @@
         <page name='MemoryAddress'/>
         <page name='LabelClass'/>
         <page name='LabelStruct'/>
+        <page name='StructPointDrawn'/>
     </pages>
 </playground>
