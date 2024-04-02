@@ -1,3 +1,6 @@
 <a href="https://medium.com/macoclock/hidden-cost-of-string-allocation-in-swift-2aee2686d34a">
     El coste oculto de la asignación de Strings en Swift - Shivam Jaiswal
 </a>
+<a href="https://jacobbartlett.substack.com/p/compiler-cocaine-the-swift-method">
+    The Swift Method Dispatch Deep Dive - Jacob Bartlett
+</a>

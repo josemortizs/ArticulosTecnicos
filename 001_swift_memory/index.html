@@ -365,7 +365,6 @@
                 un mayor recuento de referencias. ¿Vemos cómo mejorarlo?
                 <!-- TODO: Revisar implementación de URL-->
             </p>
-            <!-- TODO: Sustituir code/pre por imagen-->
             <div class="image-container">
                 <img src="images/code_09.png" alt="code_06.png">
             </div>
@@ -416,6 +415,78 @@
                 Ok, volvamos al código para verlo con un ejemplo. Volvamos a la estructura Point y agreguémosle 
                 un método para dibujar el punto, no le agregaremos ninguna implementación porque no es 
                 importante para el caso: 
+            </p>
+            <div class="image-container">
+                <img src="images/code_10.png" alt="code_06.png">
+            </div>
+            <p>
+                Nada complejo en el código mostrado. Pero en este ejemplo hay una parte del código que es 
+                candidata a ser optimizada, de forma automática, por el compilador mediante una técnica 
+                que, en Swift, se denomina <b>"inlining"</b>:
+            </p>
+            <div class="image-container">
+                <img src="images/code_12.png" alt="code_06.png">
+            </div>
+            <p>
+                Es un ejemplo muy simple en el que la llamada a la función drawAPoint ha sido sustituida,
+                en tiempo de compilación, por la llamada directa al método draw de la instancia point.
+                Veamos otro ejemplo sencillo: 
+            </p>
+            <div class="image-container">
+                <img src="images/code_15.png" alt="code_06.png">
+            </div>
+            <p>
+                En el caso de que el compilador decidiese usar <b>"inlining"</b> con este código el
+                código finalmente compilado podría ser similar a este otro ejemplo: 
+            </p>
+            <div class="image-container">
+                <img src="images/code_14.png" alt="code_06.png">
+            </div>
+            <p>
+                ¿Por qué 'let twoPlusOne = 3'?, porque en este ejemplo el compilador ya tendría toda
+                la información necesaria para calcular el resultado, con lo que a la optimización 
+                <b>"inlining"</b> le sumaríamos una optimización adicional al tener el resultado 
+                de la ecuación en tiempo de compilación, sin necesidad de calcularla en tiempo de
+                ejecución. 
+            </p>
+            <p>
+                Como se trata de un solo ejemplo puede no dársele la importancia adecuada, cuando 
+                realmente la tiene ya que estas optimizaciones podrían afectar a estructuras de 
+                datos que estuviesen calculando algunas de estas operaciones en tiempo de ejecución 
+                un número muy alto de veces...
+            </p>
+            <p>
+                Resumiendo: <b>"inlining"</b> se refiere al proceso en el que el compilador reemplaza 
+                una función o método por su contenido directamente en el lugar donde se utiliza. 
+                Esto se hace para mejorar el rendimiento del programa al minimizar las llamadas a funciones 
+                y eliminar la necesidad de guardar y restaurar estados previos en instancias de estado 
+                compartido, etc. 
+            </p>
+            <p>
+                Bien, sigamos revisando código, que ya nos acercamos a completar el enigma de los 
+                espacios reservados para clases...
+            </p>
+            <div class="image-container">
+                <img src="images/code_13.png" alt="code_06.png">
+            </div>
+            <p>
+                Aquí encontramos una clase Drawable. Esta clase cuenta con una función draw(). Si te estás 
+                adelantando y en tu cabeza ya hay una vocecita diciendo "eso no debería ser una clase, 
+                debería estar implementado como protocolo...": vale, pero cómprame el ejemplo, o, mejor
+                aún, cómpraselo a Apple, que es suyo...
+            </p>
+            <p>
+                También encontramos dos clases hijas de Drawable, Point y Line, ambas sobrecargan la 
+                función draw() de su clase padre e implementan su propia funcionalidad. En el caso de 
+                que trabajásemos con un Array de objetos de tipo Drawable y fuésemos agregándole diferentes
+                instancias, tanto de puntos como de líneas, nos encontraríamos con un problema. 
+                Al recorrer el array y usar la función draw() de cada objeto de tipo Drawable, ¿qué 
+                implementación debe usar?
+            </p>
+            <!-- Crear imagen de Polymorphism Through V-Table Dispatch -->
+            <p>
+                Aquí entra en juego el espacio restante: un puntero a la información de tipo de la clase 
+                correspondiente. <!-- 22:07 -->
             </p>
         </section>
     </article>
