@@ -241,7 +241,7 @@
                 <b>101C1D580</b> es un referencia de memoria de ejemplo, para simular una real donde se almacenarían los datos. 
                 Muchos, al llegar hasta aquí, os preguntaréis por qué hay cuatro "espacios" de memoria cuando para "almacenar" la estructura solo hacían falta dos. 
                 Veamos, uno de los espacios, al que llamaremos <b>refCount</b>, es usado por ARC para almacenar el número de "referencias activas" que apuntan a dicha posición 
-                de memoria y el otro se usa para almacenar el tipo de objeto. Cuando hablemos del despachado dinámico y estático de métodos de clase este "espacio" cobrará su
+                de memoria. Trataremos más adelante sobre el último espacio. Cuando hablemos del despachado dinámico y estático de métodos de clase este "espacio" cobrará su
                 debida importancia, por ahora, obviémoslo, Swift lo necesita y lo reserva en consecuencia. 
             </p>
             <p>
@@ -486,7 +486,77 @@
             <!-- Crear imagen de Polymorphism Through V-Table Dispatch -->
             <p>
                 Aquí entra en juego el espacio restante: un puntero a la información de tipo de la clase 
-                correspondiente. <!-- 22:07 -->
+                correspondiente. <!-- 22:07 --> Vamos a echar un vistazo a la siguiente representación: 
+            </p>
+            <div class="image-container">
+                <img src="images/memory_rep_03.png" alt="code_06.png">
+            </div>
+            <p>
+                ¿Qué podemos sacar en claro de esta representación de la memoria?, pues por ejemplo, 
+                que los arrays también tienen su propio espacio reservado para contar referencias, lo
+                que nos vendría a indicar que también se almacena en el Heap de la memoria y que cada
+                uno de los Stack que lo usen estarán almacenando una referencia de memoria a éste. 
+            </p>
+            <p>
+                Line y Point, aún siendo clases hijas de Drawable, tienen tamaños diferentes ya que 
+                Line debe almacenar más información que Point, ¿por qué no es un problema para el array?,
+                porque en cada uno de los espacios reservados (d[0] y d[1]) lo que se almacena es
+                la referencia a la dirección de memoria de cada uno de los objetos. 
+            </p>
+            <p>
+                Y, por fin, llegamos a completar el dato que nos faltaba. En el espacio reservado por 
+                cada instancia de la clase lo que almacenamos es el, anteriormente mencionado, puntero 
+                a la dirección de memoria donde Swift ha almacenado la implementación del método a 
+                ejecutar para cada tipo de dato.  
+            </p>
+            <p>
+                La parte inferior de la imagen la podemos llamar "tabla de métodos", o "tabla virtual 
+                de métodos". Como dato, este comportamiento es común a otros lenguajes de programación 
+                orientados a objetos como Java o C++. 
+            </p>
+            <p>
+                De nuevo, podemos volver a caer en que no debería de suponer una gran diferencia, pero 
+                en caso de pensar así volveríamos a estar obviando muchos casos en los que conocer, o 
+                no, el método a "servir" estaría evitando toda una serie de optimizaciones para 
+                nuestro código. Por ejemplo, en un encadenamiento de métodos el encontrar este nivel 
+                de indirección provocaría que el compilador no pudiese optimizar el resto de llamadas 
+                posteriores, aún en el caso de que el resto de "envíos" pudisesen calcularse en tiempo
+                de compilación. 
+            </p>
+            <p>
+                ¿Entiendes un poco mejor por qué debemos marcar como <b>"final"</b> todas aquellas clases 
+                que no vayan a tener subclases que hereden de ésta?, efectivamente, no se trataba de una 
+                manía del Senior de turno. El compilador será consciente de esto y realizará el envío 
+                estático de métodos para las instancias de esta clase. 
+            </p>
+        </section>
+        <section>
+            <h2>Conclusión:</h2>
+            <p>
+                En resumen, hemos explorado en profundidad el uso de la memoria Heap y Stack en Swift, 
+                comprendiendo las diferencias fundamentales entre ambas áreas y cómo afectan al 
+                rendimiento y la seguridad de nuestras aplicaciones.
+            </p>
+            <p>
+                Es importante destacar que el objetivo no es demonizar el uso de clases en Swift, 
+                sino entender cuándo y cómo utilizarlas de manera efectiva. Las clases son una 
+                herramienta poderosa que proporciona Swift, pero debemos ser conscientes de sus 
+                implicaciones en términos de asignación dinámica de memoria, gestión de referencias 
+                y rendimiento.
+            </p>
+            <p>
+                Por lo tanto, la clave está en utilizar las clases cuando realmente necesitemos sus 
+                capacidades de herencia, polimorfismo y referencia compartida entre instancias. 
+                En casos donde estas características no sean necesarias, como en tipos de datos 
+                simples o en estructuras que actúan como valores, es preferible optar por estructuras, 
+                que ofrecen un rendimiento más eficiente al utilizar la pila de memoria y evitar 
+                la sobrecarga de gestión de referencias.
+            </p>
+            <p>
+                En última instancia, la elección entre clases y estructuras en Swift debe basarse 
+                en una comprensión clara de los requisitos de diseño y las características de 
+                rendimiento de cada opción, buscando siempre maximizar la eficiencia del código y 
+                sin olvidar su claridad, pero esto da para otro artículo...
             </p>
         </section>
     </article>
