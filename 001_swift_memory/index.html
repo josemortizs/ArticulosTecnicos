@@ -114,7 +114,7 @@
                 En Swift, la gestión de la memoria se lleva a cabo principalmente en dos áreas: la pila (<b>Stack</b>) y el montículo (<b>Heap</b>).
                 Paciencia aquí, acabarás familiarizado con estos dos términos pronto...
                 <br><br>
-                Listemos algunas diferencias entre <b>Heap</b> y <b>Stack</b>, montículo y pila. No os molestéis en intentar memorizar nada, esta 
+                Listemos algunas diferencias entre <b>Heap</b> y <b>Stack</b>. No os molestéis en intentar memorizar nada, esta 
                 tabla solo busca ser una referencia, un sitio al que podamos volver si tenemos dudas sobre una determinada
                 característica de nuestras dos nuevas mejores amigas. 
             </p>
@@ -149,10 +149,10 @@
                         <td>Seguridad:</td>
                         <td>
                             Cada hilo tiene su propia <b>Stack</b> de memoria, por lo que no pueden producirse accesos simultáneos
-                            a datos "de estado compartido" que puedan producir las famosas "conditions race". **
+                            a datos "de estado compartido" que puedan producir las famosas "condiciones de carrera". **
                         </td>
                         <td>
-                            Todos los hilos acceden al mismo <b>Heap</b> por lo que pueden producirse "conditions race", así que los
+                            Todos los hilos acceden al mismo <b>Heap</b> por lo que pueden producirse "condiciones de carrera", así que los
                             datos deben de estar protegidos ante esta casuística. **
                         </td>
                     </tr>
@@ -187,26 +187,26 @@
                     <br><br>
                     En la Imagen 2 podemos observar otra representación gráfica de cómo Swift agregaría datos al Stack y cómo los liberaría,
                     cuando ya no fuesen necesarios, mediante dicho sistema LIFO (Last in, First Out).
-                    <br><br>
+                </p>
+                <br>
+                <div class="image-container">
+                    <img class="left-aligned" src="images/memory_rep_04.png" alt="code_01.png">
+                </div>
+                <br>
+                <div class="image-container">
+                    <img class="left-aligned" src="images/memory_rep_05.png" alt="memory_rep_01.png">
+                </div>
+                <p>
+                    <br>
                     Mientras tanto, la asignación dinámica en el <b>Heap</b> (montículo), implica que debamos encontrar un espacio en memoria 
                     con el tamaño apropiado y, cuando ya no la necesitemos, desasignarla adecuadamente, incurriendo en una gestión 
                     mucho más compleja, y por ende menos eficiente, que la usada para almacenar en la <b>Stack</b> (pila).
                 </p>
-                <br>
-                <div style="display: flex; justify-content: space-between;">
-                    <img src="images/stack_01.png" alt="Imagen 1" style="max-width: calc(50% - 10px); border-radius: 5px;">
-                    <img src="images/stack_02.png" alt="Imagen 2" style="max-width: calc(50% - 10px); border-radius: 5px;">
-                </div>
-                <br>
-                <div style="display: flex; justify-content: space-between;">
-                    <span style="max-width: calc(50% - 10px); border-radius: 5px;">Imagen 1</span>
-                    <span style="max-width: calc(50% - 10px); border-radius: 5px;">Imagen 2</span>
-                </div>
             </aside>
             <p>
                 Si queremos que nuestras abstracciones sean rápidas, y óptimas, necesitamos tener en cuenta todas y cada una de 
                 las cuestiones que acabamos de leer, más algunas otras como el despachado dinámico y estático de métodos que veremos 
-                en el siguiente artículo.
+                un poco más adelante.
             </p>
         </section>
         <section>
@@ -395,7 +395,7 @@
                 ¿Recordáis que cuando hablábamos de espacios de memoria hacíamos referencia a dos espacios extra 
                 en el caso de usar clases?, si volvéis atrás en este mismo artículo encontraréis que uno de esos
                 "espacios extra", Swift, lo dedicaba a guardar el recuento de referencias. Bien, veamos a qué 
-                dedica Swift el restante.  
+                dedica el restante.  
             </p>
             <p>
                 Cuando usamos un método de clase, en tiempo de ejecución, Swift necesita saber que implementación 
@@ -515,12 +515,12 @@
                 orientados a objetos como Java o C++. 
             </p>
             <p>
-                De nuevo, podemos volver a caer en pensar que no debería de suponer una gran diferencia, pero 
-                en caso de pensar así volveríamos a estar obviando muchos casos en los que conocer, o 
-                no, el método a "servir" estaría evitando toda una serie de optimizaciones para 
+                De nuevo podemos volver a pensar que no debería de suponer una gran diferencia, pero 
+                estaríamos obviando muchos casos en los que no conocer el método 
+                a "servir", de modo estático,  estaría evitando toda una serie de optimizaciones para 
                 nuestro código. Por ejemplo, en un encadenamiento de métodos el encontrar este nivel 
                 de indirección provocaría que el compilador no pudiese optimizar el resto de llamadas 
-                posteriores, aún en el caso de que el resto de "envíos" pudisesen calcularse en tiempo
+                posteriores, aún en el caso de que el resto de "envíos" pudieran calcularse en tiempo
                 de compilación. 
             </p>
             <p>
