@@ -53,21 +53,9 @@ Esta capa no tiene ningún acoplamiento con una capa exterior, es más, no debe 
 ¿Qué contendría, por ejemplo, esta capa Core?
 
 1. **Modelos de dominio:** abstracción de un entrenamiento, una serie, tipos de entrenamiento, etc
-2. **Servicios de dominio:** clases relacionadas con los modelos de dominio y que ayudan a implementar nuestras **reglas de negocio**, por ejemplo, analizar si un ejercicio es válido o no, cambiar el estado de un array de ejercicios, sumar una repetición si estás repitiendo un ejercicio que ya hubieses realizado, comprobar que el número de repeticios ha de ser mayor de cero...  
+2. **Servicios de dominio:** clases relacionadas con los modelos de dominio y que ayudan a implementar nuestras **reglas de negocio, hablaremos de ellas en la siguiente sección**, por ejemplo, analizar si un ejercicio es válido o no, cambiar el estado de un array de ejercicios, sumar una repetición si estás repitiendo un ejercicio que ya hubieses realizado, comprobar que el número de repeticios ha de ser mayor de cero...  
 
 > No confundir estos servicios de dominio con una clase que, por ejemplo, realice una petición de red para recibir datos del entrenamiento, o que envíe algún tipo de evento fuera.
-
-**¿Reglas de negocio?, ¿de qué nos estás hablando?, veámoslo mejor con ejemplos...** 
-
-1. Reglas de negocio para la tarea: *Consultar el historial de entrenamientos*
-    * Filtrar las sesiones de entrenamiento por usuario y rango de fechas (si se proporciona)
-    * Ordenar las sesiones por fecha.
-    * Calcular estadísticas relevantes (por ejemplo, total de ejercicios realizados, tiempo total de entrenamiento).
-2. Reglas de negocio para la tarea: *Actualizar perfil de usuario*
-    * Validar la consistencia de la información proporcionada.
-3. Reglas de negocio para la tarea: *Registrar una sesión de entrenamiento*
-    * Verificar que el plan de entrenamiento existe y pertenece al usuario.
-
 
 Nuestos modelos de dominio también los encontrarás citados, aquí o en otros artículos, charlas, etc, como **Entities** o **Data Objects**. Veamos una representación de esta capa.
 
@@ -81,6 +69,19 @@ Los componentes de esta capa solo pueden tener dependencias entre ellos, tanto d
 ---
 
 Esta capa contendría las reglas comerciales específicas de nuestra aplicación. Por convención, al software que diseñamos en esta capa se le llama **Casos de Uso**. Los usamos para dirigir el flujo de datos desde nuestras entidades y hacia éstas. 
+
+**¿Reglas comerciales?, ¿Reglas de negocio?, ¿de qué nos estás hablando?, veámoslo mejor con ejemplos...** 
+
+1. Reglas de negocio para la tarea: *Consultar el historial de entrenamientos*
+    * Filtrar las sesiones de entrenamiento por usuario y rango de fechas (si se proporciona)
+    * Ordenar las sesiones por fecha.
+    * Calcular estadísticas relevantes (por ejemplo, total de ejercicios realizados, tiempo total de entrenamiento).
+2. Reglas de negocio para la tarea: *Actualizar perfil de usuario*
+    * Validar la consistencia de la información proporcionada.
+3. Reglas de negocio para la tarea: *Registrar una sesión de entrenamiento*
+    * Verificar que el plan de entrenamiento existe y pertenece al usuario.
+
+> *Consultar el historial de entrenamientos*, por ejemplo, tendría su propio caso de uso y sería el encargado de llevar a cabo la implementación de nuestras reglas de negocio. ¿Cómo podría evitar incumplir el principio de responsabilidad única?, podría apoyarse en otros casos de uso, en caso de necesitarlos, usar los *servicios de dominio* que vimos en la sección anterior, etc.
 
 Los cambios en esta capa no afectarían a nuestros modelos de dominio y tampoco deberían verse afectados por cambios externos. ¿Cómo mantenemos nuestra *regla de la dependencia*?. Los casos de uso establecerán sus *contratos*, *protocolos*, *interfaces*, como queramos llamarlos, y serán implementados por los componentes de la capa superior.
 
@@ -102,11 +103,11 @@ He dibujado la dependencia de esta capa, con la capa inferior, mediante una flec
 
 Los adaptadores establecen un puente entre la lógica de negocio y los detalles de infraestructura. Aquí se encuentran los componentes que implementan los contratos, protocolos, interfaces, definidos en la capa inferior (Casos de uso).
 
-Esta capa también se ocupa de "traducir", mapear, los datos que obtenemos desde capas externas a datos de nuestra lógica de negocio.  
+Esta capa también se ocupa de "traducir", mapear, los datos que obtenemos desde capas externas a datos de nuestra lógica de negocio.
 
-La capa de adaptadores estaría dividida en varias secciones:
+La capa de adaptadores estaría dividida en varias secciones, cómo mínimo, estas dos:
 1. **Capa de presentación:** donde encontraríamos los viewmodels, presenters, etc
-2. **Capa de datos:** donde encontraríamos los repositorios, protocolos de datasource, etc
+2. **Capa de datos:** donde encontraríamos los repositorios, protocolos de datasource, mappers, protocolos de Data Objects, etc
 
 Hay un cambio importante con relación a las capas inferiores. En éstas todos sus componentes se "conocían" entre sí y podían depender unos de otros. En la capa **Adaptadores** esto no es posible, y es muy importante que se cumpla esta regla. Los componentes de la capa de presentación no pueden tener ningún tipo de dependencia de componentes de la capa de datos y viceversa, no pueden estar acoplados. 
 
@@ -117,3 +118,8 @@ Un ViewModel no podría, por ejemplo, instanciar un objeto de la capa de datos, 
 > La capa de adaptadores podría estar dividida en más partes, secciones. He citado estas dos porque considero que son las más comunes a cualquier arquitectura limpia, independientemente de la tecnología del proyecto, sea web, app, etc...
 > 
 > Por ejemplo, un manager que gestionase la analítica de nuestro negocio, aplicación, etc, también pertenecería a esta capa de adaptadores. Y al igual que las capas de presentación y datos no podría tener dependencias con éstas. 
+
+![Capa de adaptadores](images/AdaptersLayer.png)
+
+Podemos observar cómo la capa de adaptadores está acoplada a la de use cases, así como ésta lo está a la de dominio. Nada definido aquí, en la capa de adaptadores, podría ser "invocado" en la capa de use cases. Para eso usamos el principio de la inversión de dependencias, implementamos en nuestros componentes los protocolos necesarios, que tenemos definidos en la capa inferior, y los inyectamos donde sea necesario.
+
