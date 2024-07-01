@@ -113,7 +113,7 @@ Hay un cambio importante con relación a las capas inferiores. En éstas todos s
 
 Un ViewModel no podría, por ejemplo, instanciar un objeto de la capa de datos, tendría que hacerlo a través de los casos de uso, a través de su capa inferior. Son flujos que están separados. Ayúdemonos de una representación gráfica:
 
-**TODO: IMPLEMENTAR REPRESENTACIÓN DE FLUJO DE DATOS** 
+![Flujo de datos e interacciones en nuestra clean architecture](images/cleanarchitectureflow.png)
 
 > La capa de adaptadores podría estar dividida en más partes, secciones. He citado estas dos porque considero que son las más comunes a cualquier arquitectura limpia, independientemente de la tecnología del proyecto, sea web, app, etc...
 > 
@@ -122,4 +122,23 @@ Un ViewModel no podría, por ejemplo, instanciar un objeto de la capa de datos, 
 ![Capa de adaptadores](images/AdaptersLayer.png)
 
 Podemos observar cómo la capa de adaptadores está acoplada a la de use cases, así como ésta lo está a la de dominio. Nada definido aquí, en la capa de adaptadores, podría ser "invocado" en la capa de use cases. Para eso usamos el principio de la inversión de dependencias, implementamos en nuestros componentes los protocolos necesarios, que tenemos definidos en la capa inferior, y los inyectamos donde sea necesario.
+
+### Capa de infraestructura
+---
+
+Al principio del artículo hablábamos sobre que había que separar la lógica de negocio de los detalles de la infraestructura, hasta ahora habíamos visto la lágica de negocio, mediante sus capas contenedoras de las entidades y casos de uso. Y también habíamos hablado de una capa, adaptadores, que hacía de puente entre ésta lógica la capa de infraestructura. Hablemos de ésta última.
+
+Esta capa contendría todos los componentes relacionados con la interfaz de usuario, por ejemplo, las vistas en SwiftUI o UIKit. Contendría las clases necesarias para realizar una llamada de red y obtener los datos que necesitamos inyectar en nuestros repositorios para que éstos, a su vez, lo hagan en los casos de uso. Para ello usaríamos URLSession, Alamofire, Moya, o similar. En caso de tener que persistir datos sería esta capa la que se encargaría de implementar la funcionalidad mediante una base de datos local (sqlite, coredata, swiftdata...)
+
+Fijáos en la diferencia de esta capa con las más internas. Aquí ya estamos hablando de tecnologías, frameworks, etc. Mientras antes hablábamos de entrenamientos, ejercicios, repeticiones, ahora hablamos de SwiftUI, URLSession o CoreData...
+
+Esta es la parte que es más susceptible de sufrir cambios durante la vida de un proyecto. Mediante nuestra arquitectura limpia conseguimos que un cambio en cualquier componente de esta capa no tenga ninguna repercusión en las capas inferiores, en nuestra lógica de negocio. Si tenemos que cambiar alguno de estos componentes estará tan aislado que el cambio se limitará a sustiuir un componente por otro, sin que el resto de componentes deba sufrir ninguna alteración. 
+
+Nuevamente conseguimos esta capacidad de fácil sustitución mediente el uso de los principios solid y su inversión de las dependencias.
+
+¿Echamos un vistazo a la representación final de nuestra arquitectura?
+
+![capa infraestructura, rodeando el resto](images/InfrastructureLayer.png)
+
+> Esta capa tiene la misma particularidad que la capa adaptadores, aunque las vistas están en la misma capa que los *data sources* éstos no se *"conocen"*, no tienen dependencias entre ellos ni por herencia ni por composición. En resumen, no están acoplados entre ellos. 
 
