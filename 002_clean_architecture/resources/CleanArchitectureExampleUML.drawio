@@ -1,0 +1,77 @@
+<mxfile host="Electron" modified="2024-07-01T21:59:36.144Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="wQdwxHWPslMtiSFS5z8q" version="24.6.4" type="device">
+  <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
+    <mxGraphModel dx="821" dy="594" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Adapter layer" style="swimlane;whiteSpace=wrap" parent="1" vertex="1">
+          <mxGeometry x="140" y="128" width="370" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="" style="edgeStyle=elbowEdgeStyle;elbow=horizontal;strokeColor=#FF0000;endArrow=open;endFill=1;rounded=0" parent="2" source="10" edge="1">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="160" y="290" as="sourcePoint" />
+            <mxPoint x="60" y="135" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="30" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-62" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Repository: GetNewsByKeywordUseCaseProtocol&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ dataSource: ApiDataSourceProtocol&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;getNewsByKeyword(): [Article]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="2">
+          <mxGeometry x="10" y="222" width="350" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-64" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;span style=&quot;text-align: left;&quot;&gt;ApiDataSourceProtocol&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;div&gt;&lt;span style=&quot;text-align: left;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;getNewsByKeyword(): [ArticleDTO]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="2">
+          <mxGeometry x="10" y="52" width="350" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-65" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.458;entryY=1.014;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.462;exitY=-0.018;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="2" source="Giaqr8w6VxDIEwkgcGjr-62" target="Giaqr8w6VxDIEwkgcGjr-64">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="170" y="202" as="sourcePoint" />
+            <mxPoint x="170" y="152" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="3" value="Use cases layer" style="swimlane;whiteSpace=wrap" parent="1" vertex="1">
+          <mxGeometry x="550" y="128" width="315" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-46" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GetNewsByKeywordUseCase&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ repository: &lt;br&gt;GetNewsByKeywordUseCaseProtocol&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsByKeyword(): [Article]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="3">
+          <mxGeometry x="47" y="318" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-54" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;span style=&quot;text-align: left;&quot;&gt;GetNewsByKeywordUseCaseProtocol&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;div&gt;&lt;span style=&quot;text-align: left;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;getNewsByKeyword(): [Article]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="3">
+          <mxGeometry x="47" y="126" width="230" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-56" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="3" source="Giaqr8w6VxDIEwkgcGjr-46" target="Giaqr8w6VxDIEwkgcGjr-54">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="96.5" y="238" as="sourcePoint" />
+            <mxPoint x="256.5" y="238" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4" value="Domain layer" style="swimlane;whiteSpace=wrap" parent="1" vertex="1">
+          <mxGeometry x="864.5" y="128" width="280" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-41" value="Article&lt;div&gt;Domain Model&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4">
+          <mxGeometry x="80" y="255" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-42" value="&lt;div&gt;Newspaper&lt;/div&gt;&lt;div&gt;Domain Model&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="4">
+          <mxGeometry x="80" y="442" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-43" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="4" source="Giaqr8w6VxDIEwkgcGjr-42" target="Giaqr8w6VxDIEwkgcGjr-41">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-224.5" y="262" as="sourcePoint" />
+            <mxPoint x="-64.5" y="262" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-53" value="Use" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="4" source="Giaqr8w6VxDIEwkgcGjr-46">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="-34.5" y="292" as="sourcePoint" />
+            <mxPoint x="75.5" y="292" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Giaqr8w6VxDIEwkgcGjr-66" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=-0.007;entryY=0.568;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Giaqr8w6VxDIEwkgcGjr-62" target="Giaqr8w6VxDIEwkgcGjr-54">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="530" y="390" as="sourcePoint" />
+            <mxPoint x="630" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

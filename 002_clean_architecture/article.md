@@ -79,8 +79,8 @@ Esta capa contendría las reglas comerciales específicas de nuestra aplicación
 2. Reglas de negocio para la tarea: *Actualizar perfil de usuario*
     * Validar la consistencia de la información proporcionada.
 3. Reglas de negocio para la tarea: *Registrar una sesión de entrenamiento*
-    * Verificar que el plan de entrenamiento existe y pertenece al usuario.
-
+    * Verificar que el plan de entrenamiento existe y pertenece al usuario.  
+    
 > *Consultar el historial de entrenamientos*, por ejemplo, tendría su propio caso de uso y sería el encargado de llevar a cabo la implementación de nuestras reglas de negocio. ¿Cómo podría evitar incumplir el principio de responsabilidad única?, podría apoyarse en otros casos de uso, en caso de necesitarlos, usar los *servicios de dominio* que vimos en la sección anterior, etc.
 
 Los cambios en esta capa no afectarían a nuestros modelos de dominio y tampoco deberían verse afectados por cambios externos. ¿Cómo mantenemos nuestra *regla de la dependencia*?. Los casos de uso establecerán sus *contratos*, *protocolos*, *interfaces*, como queramos llamarlos, y serán implementados por los componentes de la capa superior.
@@ -123,16 +123,24 @@ Un ViewModel no podría, por ejemplo, instanciar un objeto de la capa de datos, 
 
 Podemos observar cómo la capa de adaptadores está acoplada a la de use cases, así como ésta lo está a la de dominio. Nada definido aquí, en la capa de adaptadores, podría ser "invocado" en la capa de use cases. Para eso usamos el principio de la inversión de dependencias, implementamos en nuestros componentes los protocolos necesarios, que tenemos definidos en la capa inferior, y los inyectamos donde sea necesario.
 
+Si nos fijamos, esta capa tiene dependencias de los protocolos de casos de uso que tiene que implementar y de los modelos de datos que usen estos protocolos, en resumen, de sus capas inferiores. Pero no sabe si vamos a realizar las llamadas de red mediante URLSession o a usar una librería de terceros. No sabe si persistiremos los datos sensibles en UserDefaults o usaremos Keychain (es un ejemplo, para datos sensibles usad Keychain).
+
+Esto quiere decir que esta capa de red desconoce estas implementaciones, por lo que evita su acoplamiento a las mismas. ¿Cómo se comunica con las capas superiores?, de la misma forma que los use cases se comunican con ellos, mediante contratos, interfaces, protocolos y, de nuevo, la magia de la inversión de las dependencias. 
+
 ### Capa de infraestructura
 ---
 
 Al principio del artículo hablábamos sobre que había que separar la lógica de negocio de los detalles de la infraestructura, hasta ahora habíamos visto la lágica de negocio, mediante sus capas contenedoras de las entidades y casos de uso. Y también habíamos hablado de una capa, adaptadores, que hacía de puente entre ésta lógica la capa de infraestructura. Hablemos de ésta última.
 
-Esta capa contendría todos los componentes relacionados con la interfaz de usuario, por ejemplo, las vistas en SwiftUI o UIKit. Contendría las clases necesarias para realizar una llamada de red y obtener los datos que necesitamos inyectar en nuestros repositorios para que éstos, a su vez, lo hagan en los casos de uso. Para ello usaríamos URLSession, Alamofire, Moya, o similar. En caso de tener que persistir datos sería esta capa la que se encargaría de implementar la funcionalidad mediante una base de datos local (sqlite, coredata, swiftdata...)
+Esta capa contendría todos los componentes relacionados con la interfaz de usuario, por ejemplo las vistas en SwiftUI o UIKit. Contendría las clases necesarias para realizar una llamada de red y obtener los datos que necesitamos inyectar en nuestros repositorios para que éstos, a su vez, lo hagan en los casos de uso. Para ello usaríamos URLSession, Alamofire, Moya, o similar. En caso de tener que persistir datos sería esta capa la que se encargaría de implementar la funcionalidad mediante una base de datos local (sqlite, coredata, swiftdata...)
 
 Fijáos en la diferencia de esta capa con las más internas. Aquí ya estamos hablando de tecnologías, frameworks, etc. Mientras antes hablábamos de entrenamientos, ejercicios, repeticiones, ahora hablamos de SwiftUI, URLSession o CoreData...
 
-Esta es la parte que es más susceptible de sufrir cambios durante la vida de un proyecto. Mediante nuestra arquitectura limpia conseguimos que un cambio en cualquier componente de esta capa no tenga ninguna repercusión en las capas inferiores, en nuestra lógica de negocio. Si tenemos que cambiar alguno de estos componentes estará tan aislado que el cambio se limitará a sustiuir un componente por otro, sin que el resto de componentes deba sufrir ninguna alteración. 
+Esta parte, aunque no nos entre en la cabeza a los desarrolladores, es transparente al usuario y al resto de stakeholders de la compañía. Aunque nos duela, esta parte solo nos interesa a nosotros...
+
+Esta es la parte que es más susceptible de sufrir cambios durante la vida de un proyecto. Mediante nuestra arquitectura limpia conseguimos que un cambio en cualquier componente de esta capa no tenga ninguna repercusión en las capas inferiores, en nuestra lógica de negocio. Si tenemos que cambiar alguno de estos componentes estará tan aislado que el cambio se limitará a sustiuir un componente por otro, sin que el resto de componentes deba sufrir ninguna alteración. Si lo hacemos bien, estos componentes, de red, de UI, de almacenamiento, etc, actuarán como meros plugins de nuestra lógica de negocio, sustituibles. 
+
+Nadie espera tener que modificar las ruedas de una bicicleta, o el sistema de frenado, al cambiar el sillín de una bicicleta. Nuestras arquitecturas deben funcionar igual. 
 
 Nuevamente conseguimos esta capacidad de fácil sustitución mediente el uso de los principios solid y su inversión de las dependencias.
 
@@ -142,3 +150,6 @@ Nuevamente conseguimos esta capacidad de fácil sustitución mediente el uso de 
 
 > Esta capa tiene la misma particularidad que la capa adaptadores, aunque las vistas están en la misma capa que los *data sources* éstos no se *"conocen"*, no tienen dependencias entre ellos ni por herencia ni por composición. En resumen, no están acoplados entre ellos. 
 
+Acoplar la lógica de negocio y los detalles de infraestructura lleva siendo un problema desde que empezamos a desarrollar software, no es algo nuevo. Este movimiento no ha surgido en los últimos 10 años debido al purismo de algunos desarrolladores. No, el senior no está intentando ponértelo más difícil...
+
+Este problema ya existía cuando los programadores escribían software que leía información de tarjetas perforadas. ¿Qué creéis que pasaba cuando les pedían cambiar dicho programa para que ahora leyese la información de una cinta magnética?...
