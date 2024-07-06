@@ -146,3 +146,12 @@ Acoplar la lógica de negocio y los detalles de infraestructura lleva siendo un 
 
 Este problema ya existía cuando los programadores escribían software que leía información de tarjetas perforadas. ¿Qué creéis que pasaba cuando les pedían cambiar dicho programa para que ahora leyese la información de una cinta magnética?...
 
+## Ventajas e inconvenientes
+
+### Ventajas
+
+Una mejora significativa en el coste de nuevas features al tener el código mejor estructurado, más desacoplado y con una visión más clara, y amplia, de los elementos que vas a necesitar para implementar cada una de las capas de tu arquitectura. 
+
+### Inconvenientes
+
+Puede suponer una barrera de entrada para desarrolladores Junior que no conozcan este tipo de arquitecturas. 
