@@ -1,5 +1,5 @@
-<mxfile host="Electron" modified="2024-07-09T16:30:18.299Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="9Sd5UqNctToWv3tigqcq" version="24.6.4" type="device">
-  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+<mxfile host="Electron" modified="2024-07-09T18:29:08.908Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="PITAQq2mDEeWQMJfDvq0" version="24.6.4" type="device" pages="2">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="DominioToData">
     <mxGraphModel dx="2954" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="800" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -83,6 +83,95 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="mG0GBeKA3kOR0JzB9rLf-23" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center;&quot;&gt;&lt;b&gt;URLSessionNetworkHandler: NetworkHandler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ requestDataAPI(url: URLRequest): Data&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="50" y="630" width="290" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram name="DominioToUI" id="Fkk9sADEHSH7dhSne1WX">
+    <mxGraphModel dx="2954" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="800" math="0" shadow="0">
+      <root>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-0" />
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-1" parent="-FyXOp-Q2-HTQrIQKxaw-0" />
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GetNewsByKeywordUseCase&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- repository: GetNewsByKeyword&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsBy(keywords: [String]): [Article]&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="1365" y="104" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-3" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-2" target="-FyXOp-Q2-HTQrIQKxaw-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1315" y="54" as="sourcePoint" />
+            <mxPoint x="1365" y="4" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;GetNewsByKeyword&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ getNewsBy(keywords: [String]): [Article]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="1365" y="234" width="240" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-5" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NewsRepository: GetNewsByKeyword&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- apiDataSource: ApiDataSource&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsByKeyword(): [Article]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="1045" y="230" width="250" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-6" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-2" target="-FyXOp-Q2-HTQrIQKxaw-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1235" y="434" as="sourcePoint" />
+            <mxPoint x="1395" y="434" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-7" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-5" target="-FyXOp-Q2-HTQrIQKxaw-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1235" y="434" as="sourcePoint" />
+            <mxPoint x="1395" y="434" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-8" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;ApiDataSource&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ getNewsBy(keywords: [String]): [ArticleDTO]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="1040" y="363" width="260" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-9" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-5" target="-FyXOp-Q2-HTQrIQKxaw-8">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1415" y="364" as="sourcePoint" />
+            <mxPoint x="1415" y="414" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-10" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;APINewsDataSource: ApiDataSource&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- httpClient: HTTPClient&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsBy(keywords: [String]): [ArticleDTO]&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="710" y="359" width="262" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-11" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-10" target="-FyXOp-Q2-HTQrIQKxaw-8">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="950" y="398.5" as="sourcePoint" />
+            <mxPoint x="1020" y="398.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-12" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;HTTPClient&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ makeRequest(endpoint: Endpoint): Data&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="710" y="494" width="260" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-13" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-10" target="-FyXOp-Q2-HTQrIQKxaw-12">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1050" y="554" as="sourcePoint" />
+            <mxPoint x="1050" y="607" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-14" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ApiManager: HTTPClient&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- networkHandler: NetworkHandler&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ makeRequest(endpoint: Endpoint): Data&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="390" y="490" width="262" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-15" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-14" target="-FyXOp-Q2-HTQrIQKxaw-12">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="642" y="674" as="sourcePoint" />
+            <mxPoint x="710" y="674" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-16" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;NetworkHandler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ requestDataAPI(url: URLRequest): Data&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
+          <mxGeometry x="390" y="624" width="260" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-17" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-14" target="-FyXOp-Q2-HTQrIQKxaw-16">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="701" y="714" as="sourcePoint" />
+            <mxPoint x="700" y="769" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-18" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="-FyXOp-Q2-HTQrIQKxaw-1" source="-FyXOp-Q2-HTQrIQKxaw-19" target="-FyXOp-Q2-HTQrIQKxaw-16">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="340" y="650" as="sourcePoint" />
+            <mxPoint x="370" y="754" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-FyXOp-Q2-HTQrIQKxaw-19" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center;&quot;&gt;&lt;b&gt;URLSessionNetworkHandler: NetworkHandler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ requestDataAPI(url: URLRequest): Data&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="-FyXOp-Q2-HTQrIQKxaw-1">
           <mxGeometry x="50" y="630" width="290" height="60" as="geometry" />
         </mxCell>
       </root>
