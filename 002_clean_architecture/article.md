@@ -187,3 +187,35 @@ También podría ocuparse de filtrar los artículos para excluir aquellos cuyo c
 
 - Un momento, ¿no tiene demasiadas responsabilidades?, ¿tiene que ocuparse de recibir los datos y prepararlos en base a nuestras reglas de negocio?...  
     - Bien visto, pero para la obtención de datos se apoya en lo que convencionalmente denominamos repositorio. Será a dicho repositorio al que le solicitaremos los datos correspondientes, delegando esa responsabilidad en éste y manteniendo nuestro principio de responsabilidad única. Además nuestra dependencia del repositorio está invertida, por lo que especificamos de forma abstracta a la capa superior qué necesitamos, pero sin especificar ningún tipo de implementación. De esta forma dependemos de una abstracción, no de ninguna implementación concreta que rompa nuestra regla de la dependencia. 
+
+### Repository
+
+![Imagen del repositorio y su interface](images/uml3.png)
+
+Pasamos a la capa Adaptadores y nos encontramos con una clase que implementa el protocolo, la interface, GetNewsByKeyword. ¿Qué nos indica?, que puede ser inyectada como dependencia en la clase GetNewsByKeywordUseCase. Y de esta forma cumplimos, una vez más con nuestra regla de la dependencia. GetNewsByKeywordUseCase no "conoce" nada de su capa superior, no "sabe" nada de NewsRepository o ApiDataSource. Ni lo necesita, y eso es fantástico, ¿por qué?, porque no está acoplado a nada de esta capa Adaptadores. Cualquier cambio que se realice en dicha capa podrá afectar a componentes de su misma capa o de su capa más superficial, infraestructura, pero nunca a la capa de dominio. No es magia, es una buena arquitectura.  
+
+En esta capa, adaptadores, se encuentran los componentes que se encargan de convertir los datos que nos provee la capa de infraestructura, los convencionalmente llamados DTOs, en los modelos de datos que requieren nuestras casos de uso, normalmente llamados Entities, Data Models, etc. También a la inversa, estos componentes se ocuparán de crear, mediante los modelos de datos de dominio, los datos más convenientes para la base de datos de turno, api rest o similar.  
+
+¿Responsabilidades de esta clase NewsRepository?, obtener los datos de la fuente externa que toque, en sus modelos, y convertirlos en nuestros modelos de dominio. A esta operación la solemos llamar mapear.   
+
+De nuevo, ¿dos responsabilidades?, no. Para la obtención de los datos en bruto del servicio, base de datos, etc, se apoya en un DataSource, una clase que se encarga de esa responsabilidad. Y aunque no lo he especificado para no agregar más complejidad al ejemplo, también el proceso de mapeo sería delegado en otra clase...
+
+> Para más información sobre este tipo de clases se pueden revisar los patrones de diseño Facade y Adapter, pues comparte similitudes con ambos. 
+
+¿Cómo realizamos la relación entre la clase NewsRepository y los componentes de su capa más exterior?, también mediante inversión de dependencias. La interface ApiDataSource declara lo que la clase NewsRepository necesita y se "olvida" de su capa superior, no es su problema.
+
+La capa superior tendrá la responsabilidad de crear un componente que pueda cubrir la necesidad impuesta por la interface ApiDataSource. Y este componente, sea cual sea, podrá ser inyectado como dependencia en NewsRepository. Pero NewsRepository no sabrá qué implementación concreta está siendo inyectada, por lo que no estará acoplada a ella y una futura modificación de esta nunca podrá afectarle. No podrá afectar a nada de la capa de dominio, ni casos de uso, ni entidades. Estoy repitiendo algo que he comentado tres párrafos más arriba, ¡porque es vital que se entienda!.  
+
+### Infraestructura -> Data
+
+![Imagen de los componentes de la capa de Data, en infraestructura, con sus interfaces](images/uml4.png)
+
+Empecemos hablando de APINewsDataSource. Se trata de una clase que implementa la interface ApiDataSource por lo que podrá ser inyectada en NewsRepository. Entre sus responsabilidades se encuentra la de crear los Endpoints que se usarán, por el cliente de turno (URLSession, HttpConnection, Alamofire, OkHttp...), para la obtención de los datos que necesita "servir" en su cumplimiento de la interfaz
+
+Parece que volvemos al patrón común, una clase con dos responsabilidades. Y de nuevo lo solventamos de la misma forma. APINewsDataSource se apoya en la interface HTTPClient como dependencia. APINewsDataSource se ocupará de generar los endpoints de los que hablábamos en el párrafo anterior y delegará la obtención de los datos correspondientes a éstos en el componente que se le inyecte mediante inversión de dependencia. 
+
+Importante, si aquí httpClient no fuese una abstracción, sino una clase concreta con esa misma responsabilidad, no estaríamos incumpliendo la regla de la dependencia ya que dicha clase estaría dentro de su misma capa, la de infraestructura. Pero agregando, de nuevo, una inversión de dependencia conseguimos que, en caso de tener que cambiar algo en la clase concreta dicho cambio no afecte a APINewsDataSource.  
+
+¡Estamos creando una nueva capa!, aunque más bien sería una subcapa, pero a nivel de obtención de beneficios es lo mismo. APINewsDataSource no se está acoplando a un ciente http concreto, con lo que, en el futuro, este componente podrá cambiar sin afectar a los componentes de su "subcapa" inferior. 
+
+// TODO: Modificar, tiene tres responsabilidades, también realiza el decoder de data a modelo (agregar handler en código y modificar estos párrrafos.)
