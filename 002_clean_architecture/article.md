@@ -83,7 +83,7 @@ Estos protocolos habitan en la misma capa que los casos de uso, ya que pertenece
 
 Dicho todo esto, nuestros casos de uso tendrían dependencias de: 
 1. Nuestros modelos, y servicios, de dominio, que se encuentran en una capa inferior.
-2. Otros casos de uso. Un caso de uso podría necesitar información que obtuviese mediante otro. 
+2. Otros casos de uso. Un caso de uso podría necesitar información que obtuviese mediante otro.
 3. Los protocolos, interfaces, que implementan o de los que tienen dependencias por composición. 
 
 ¿Cómo quedaría nuestra representación de capas?
@@ -150,8 +150,40 @@ Este problema ya existía cuando los programadores escribían software que leía
 
 ### Ventajas
 
-Una mejora significativa en el coste de nuevas features al tener el código mejor estructurado, más desacoplado y con una visión más clara, y amplia, de los elementos que vas a necesitar para implementar cada una de las capas de tu arquitectura. 
+**Coste:** Una mejora significativa en el coste de nuevas features al tener el código mejor estructurado, más desacoplado y con una visión más clara, y amplia, de los elementos que vas a necesitar para implementar cada una de las capas de tu arquitectura.  
+**Mantenibilidad:** La separación de "preocupaciones", "responsabilidades", facilita la modificación de una parte del sistema sin afectar a otras.  
+**Testing:** La independencia de los componentes hace que las pruebas unitarias sean más sencillas de implementar.  
+**Modularidad:** La arquitectura modular permite añadir nuevas funcionalidades sin necesidad de grandes cambios en el código existente.  
+**Adaptabilidad:** Es más fácil adaptar la aplicación a nuevas tecnologías ya que los cambios en los detalles de la infraestructura no afectarán a la lógica de negocio, capa de dominio, etc.  
+**Reutilización de código:** Los componentes independendientes pueden ser reutilizados en otros proyectos.  
+
 
 ### Inconvenientes
 
-Puede suponer una barrera de entrada para desarrolladores Junior que no conozcan este tipo de arquitecturas. 
+**Curva de aprendizaje:** Puede ser complicado de aprender y entender para desarrolladores juniors.  
+**Sobrecarga inicial:** La configuración y la estructura inicial pueden ser más complejas y consumir más tiempo que otras arquitecturas más simples.  
+**Sobreingeniería:** En aplicaciones pequeñas puede resultar en una sobreingeniería que no justifique los resultados obtenidos.  
+**Dificultad de implementación:** Requiere de desarrolladores con experiencia y un equipo disciplinado que siga las prácticas y principios establecidos.  
+
+## Flujo y responsabilidades
+
+Cuando, en este mismo artículo en la sección de Adaptadores, hablábamos del flujo de información mostrábamos esta imagen:  
+
+![Flujo de datos e interacciones en nuestra clean architecture](images/cleanarchitectureflow.png)  
+
+> No hay una única manera de estructurar una arquitectura limpia, en base a la experiencia del desarrollador, a los requisitos de la aplicación, herramientas a usar, etc, nos podremos encontrar con una u otra forma. Por ejemplo, los DataSources, de los cuales veréis un ejemplo más adelante, hay desarrolladores que los "implementan" en la capa de adaptadores mientras que otros lo hacen en la de infraestructura. Al tratarse de una separación "lógica" puede no tener ninguna repercusión más allá de ubicarse en una estructura jerárquica de carpetas u otra. Mientras se respete la regla de la dependencia no debería haber ningún problema. En mi humilde opinión, si conoce información de infraestructura, como por ejemplo, datos muy concretos de cómo montar los endpoints de llamadas a apis debería estar en infraestructura. 
+
+Veamos ahora, mediante un diagrama UML, un resumen simplificado de una posible arquitectura limpia para un caso de uso en concreto. Imaginemos que queremos crear una aplicación de noticias. Uno de nuestros casos de uso principales es el de obtener un listado de noticias recientes en base a una palabra clave. ¿Cómo podríamos dividirlo?, veamos un ejemplo:
+
+![Esquema UML del caso de uso de obtención de noticias en base a una palabra clave](images/uml1.png)
+
+### Caso de uso
+
+![Imagen del caso de uso y su interface](images/uml2.png)
+
+Nos encontramos en la capa de dominio, hemos creado nuestro caso de uso **GetNewsByKeywordUseCase**. ¿Cuál es su responsabilidad?, este caso de uso se ocupa de preparar los datos para aplicar correctamente la lógica de negocio. Por ejemplo, podría recibir los datos y, para cumplir con nuestra lógica de negocio, ordenarlos en base a una determinada propiedad: nombre, publicación...  
+
+También podría ocuparse de filtrar los artículos para excluir aquellos cuyo contenido se considerase inapropiado, etc. En resumen, una vez obtenidos los datos los tendría listos para ser devueltos a quien los requiriese.   
+
+- Un momento, ¿no tiene demasiadas responsabilidades?, ¿tiene que ocuparse de recibir los datos y prepararlos en base a nuestras reglas de negocio?...  
+    - Bien visto, pero para la obtención de datos se apoya en lo que convencionalmente denominamos repositorio. Será a dicho repositorio al que le solicitaremos los datos correspondientes, delegando esa responsabilidad en éste y manteniendo nuestro principio de responsabilidad única. Además nuestra dependencia del repositorio está invertida, por lo que especificamos de forma abstracta a la capa superior qué necesitamos, pero sin especificar ningún tipo de implementación. De esta forma dependemos de una abstracción, no de ninguna implementación concreta que rompa nuestra regla de la dependencia. 
