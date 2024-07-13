@@ -188,7 +188,7 @@ También podría ocuparse de filtrar los artículos para excluir aquellos cuyo c
 - Un momento, ¿no tiene demasiadas responsabilidades?, ¿tiene que ocuparse de recibir los datos y prepararlos en base a nuestras reglas de negocio?...  
     - Bien visto, pero para la obtención de datos se apoya en lo que convencionalmente denominamos repositorio. Será a dicho repositorio al que le solicitaremos los datos correspondientes, delegando esa responsabilidad en éste y manteniendo nuestro principio de responsabilidad única. Además nuestra dependencia del repositorio está invertida, por lo que especificamos de forma abstracta a la capa superior qué necesitamos, pero sin especificar ningún tipo de implementación. De esta forma dependemos de una abstracción, no de ninguna implementación concreta que rompa nuestra regla de la dependencia. 
 
-### Repository
+### Adapters -> Repository
 
 ![Imagen del repositorio y su interface](images/uml3.png)
 
@@ -206,16 +206,32 @@ De nuevo, ¿dos responsabilidades?, no. Para la obtención de los datos en bruto
 
 La capa superior tendrá la responsabilidad de crear un componente que pueda cubrir la necesidad impuesta por la interface ApiDataSource. Y este componente, sea cual sea, podrá ser inyectado como dependencia en NewsRepository. Pero NewsRepository no sabrá qué implementación concreta está siendo inyectada, por lo que no estará acoplada a ella y una futura modificación de esta nunca podrá afectarle. No podrá afectar a nada de la capa de dominio, ni casos de uso, ni entidades. Estoy repitiendo algo que he comentado tres párrafos más arriba, ¡porque es vital que se entienda!.  
 
+> Said Rehouni, en su [canal de youtube](https://www.youtube.com/@SaidRehouni) y su [curso sobre clean architecture](https://www.youtube.com/watch?v=nILL3UXrMS0) advierte ante la creación de repositorios masivos en los que se acumulen la resolución de las necesidades de todos los casos de uso asociados a una misma feature. Habla sobre que esto crea una mayor dificultad para testear dichos repositorios, mockearlos y que hace que incumplan el principio de responsabilidad única. 
+>
+> Este principio nos dice que una clase solo debería tener un motivo para cambiar. Si dicho repositorio está gestionando todos los casos de uso de una misma feature, con sus distintos modelos de datos, etc, es muy posible que sea susceptible a cambiar con cada una de las modificaciones que puedan realizarse en cada uno de estos modelos de datos. 
+>
+> Para estos casos recomienda crear distintos **repositories** para atender a una misma feature. 
+
 ### Infraestructura -> Data
 
 ![Imagen de los componentes de la capa de Data, en infraestructura, con sus interfaces](images/uml4.png)
 
-Empecemos hablando de APINewsDataSource. Se trata de una clase que implementa la interface ApiDataSource por lo que podrá ser inyectada en NewsRepository. Entre sus responsabilidades se encuentra la de crear los Endpoints que se usarán, por el cliente de turno (URLSession, HttpConnection, Alamofire, OkHttp...), para la obtención de los datos que necesita "servir" en su cumplimiento de la interfaz
+Empecemos hablando de **APINewsDataSource**. Se trata de una clase que implementa la interface ApiDataSource por lo que podrá ser inyectada en NewsRepository. Entre sus responsabilidades se encuentra la de crear los Endpoints que se usarán, por el cliente de turno (URLSession, HttpConnection, Alamofire, OkHttp...), para la obtención de los datos que necesita "servir" en su cumplimiento de la interfaz. También se ocupa de convertir los datos en bruto recibidos por el backend en nuestros data objects (Los DTOs que espera el repositorio).
 
-Parece que volvemos al patrón común, una clase con dos responsabilidades. Y de nuevo lo solventamos de la misma forma. APINewsDataSource se apoya en la interface HTTPClient como dependencia. APINewsDataSource se ocupará de generar los endpoints de los que hablábamos en el párrafo anterior y delegará la obtención de los datos correspondientes a éstos en el componente que se le inyecte mediante inversión de dependencia. 
+Parece que volvemos al patrón común, una clase con mas de una responsabilidad. Y de nuevo lo solventamos de la misma forma. APINewsDataSource se apoya en la interface HTTPClient como dependencia. APINewsDataSource se ocupará de generar los endpoints de los que hablábamos en el párrafo anterior y delegará la obtención de los datos correspondientes a éstos en el componente que se le inyecte mediante inversión de dependencia. De la misma forma obtendrá mediante inversión de dependencias un componente que se ocupará de realizar la deserialización del DATA bruto en los DTOs correspondientes. De nuevo, no he querido agregar estos componentes al diagrama UML por simplificar su entendimiento.
 
 Importante, si aquí httpClient no fuese una abstracción, sino una clase concreta con esa misma responsabilidad, no estaríamos incumpliendo la regla de la dependencia ya que dicha clase estaría dentro de su misma capa, la de infraestructura. Pero agregando, de nuevo, una inversión de dependencia conseguimos que, en caso de tener que cambiar algo en la clase concreta dicho cambio no afecte a APINewsDataSource.  
 
 ¡Estamos creando una nueva capa!, aunque más bien sería una subcapa, pero a nivel de obtención de beneficios es lo mismo. APINewsDataSource no se está acoplando a un ciente http concreto, con lo que, en el futuro, este componente podrá cambiar sin afectar a los componentes de su "subcapa" inferior. 
 
-// TODO: Modificar, tiene tres responsabilidades, también realiza el decoder de data a modelo (agregar handler en código y modificar estos párrrafos.)
+Hablemos de **ApiManager**. Se trata de un componente de software cuya responsabilidad es la de generar la petición de red adecuada, puede ser una URLRequest en iOS o una Request de OkHttp para Android, y realizar la llamada al backend. En este caso se apoyará en un componente, al que hemos llamado **networkHandler**, que será el que realice dicha petición en base a la request creada por **ApiManager**. Obviamente, este **networkHandler** es una abstracción que será inyectada ya que es el candidato perfecto a cambiar en un futuro.
+
+En la parte más externa de nuestro diagrama encontramos una clase, **URLSessionNetworkHandler**, que implementaría el protocolo NetworkHandler y cuya responsabilidad sería la de hacer la petición http en base a la request recibida. La he llamado **URLSessionNetworkHandler** pero también podría haberse llamado **HttpConnectionNetworkHandler** o **OkHttpNetworkHandler**, etc...
+
+En este tipo de componentes es donde más fácil podemos ver la actuación como simples "plugins" de los componentes de la capa de infraestructura. Y podemos observar todas las ventajas de una buena abstracción y separación de responsabilidades. 
+
+Bien, volvamos a la capa de adaptadores, pero veamos qué tenemos a la derecha de los casos de uso, hablemos de la capa de presentacion...
+
+### Adapters -> Presenters
+
+En construcción...
