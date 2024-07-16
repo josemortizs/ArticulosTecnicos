@@ -234,4 +234,10 @@ Bien, volvamos a la capa de adaptadores, pero veamos qué tenemos a la derecha d
 
 ### Adapters -> Presenters
 
-En construcción...
+![Capa de presentadores, muestra un ViewModel](images/uml5.jpg)
+
+En el otro lado del flujo de datos nos encontramos con los presenters. Al igual que hacían en la capa de repositorios aquí también actúan de intermediarios entre los casos de uso y, en este caso, la interfaz de usuario. 
+
+Los presenters reciben los datos de los casos de  uso y los preparan para su uso en la interfaz de usuario correspondiente, en nuestro caso vistas de SwiftUI o Composables de Jetpack Compose. Con esto se garantiza que la vista reciba solo los datos que necesita y en el formato que los necesita. 
+
+// TODO: Cambiar imagen y adaptar texto

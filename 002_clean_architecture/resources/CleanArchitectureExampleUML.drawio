@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-07-10T10:43:44.364Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="VEhb3T23oPioqOoqPhYp" version="24.6.4" type="device" pages="3">
+<mxfile host="Electron" modified="2024-07-16T18:30:30.996Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="1McMec5JPzqcLsmiJD65" version="24.6.4" type="device" pages="3">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="DominioToData">
     <mxGraphModel dx="2954" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="800" math="0" shadow="0">
       <root>
@@ -133,107 +133,116 @@
     </mxGraphModel>
   </diagram>
   <diagram id="JwMYtpfU5LX8LS4bhHKC" name="CleanArchitecture">
-    <mxGraphModel dx="2954" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2300" pageHeight="700" math="0" shadow="0">
+    <mxGraphModel dx="2954" dy="1214" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2450" pageHeight="850" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="0NATmoiwucTb0jTTR6yO-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;GetNewsByKeywordUseCase&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- repository: GetNewsByKeyword&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsBy(keywords: [String]): [NewsItem]&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1346.25" y="50" width="255" height="80" as="geometry" />
+        <mxCell id="0NATmoiwucTb0jTTR6yO-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;DefaultGetNewsByKeywordUseCase: GetNewsByKeywordUseCase&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- repository: GetNewsByKeyword&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsBy(keywords: [String]): [NewsItem]&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="1346.25" y="190" width="423.75" height="80" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-2" value="" style="endArrow=none;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-1" target="0NATmoiwucTb0jTTR6yO-1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="1305" as="sourcePoint" />
-            <mxPoint x="1355" y="-50" as="targetPoint" />
+            <mxPoint x="1305" y="140" as="sourcePoint" />
+            <mxPoint x="1355" y="90" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;GetNewsByKeyword&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ getNewsBy(keywords: [String]): [&lt;/span&gt;NewsItem&lt;span style=&quot;background-color: initial;&quot;&gt;]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1347.5" y="180" width="252.5" height="72" as="geometry" />
+          <mxGeometry x="1431.88" y="320" width="252.5" height="72" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NewsRepository: GetNewsByKeyword&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- apiDataSource: ApiDataSource&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsBy(keywords: [String]): [NewsItem]&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1035" y="176" width="250" height="80" as="geometry" />
+          <mxGeometry x="1035" y="316" width="250" height="80" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-5" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-1" target="0NATmoiwucTb0jTTR6yO-3" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="1225" y="380" as="sourcePoint" />
-            <mxPoint x="1385" y="380" as="targetPoint" />
+            <mxPoint x="1225" y="520" as="sourcePoint" />
+            <mxPoint x="1385" y="520" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-6" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-4" target="0NATmoiwucTb0jTTR6yO-3" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="1225" y="380" as="sourcePoint" />
-            <mxPoint x="1385" y="380" as="targetPoint" />
+            <mxPoint x="1225" y="520" as="sourcePoint" />
+            <mxPoint x="1385" y="520" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-7" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;ApiDataSource&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ getNewsBy(keywords: [String]): [&lt;/span&gt;NewsItemDTO&lt;span style=&quot;background-color: initial;&quot;&gt;]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1020" y="309" width="280" height="72" as="geometry" />
+          <mxGeometry x="1020" y="449" width="280" height="72" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-8" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-4" target="0NATmoiwucTb0jTTR6yO-7" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="1405" y="310" as="sourcePoint" />
-            <mxPoint x="1405" y="360" as="targetPoint" />
+            <mxPoint x="1405" y="450" as="sourcePoint" />
+            <mxPoint x="1405" y="500" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;APINewsDataSource: ApiDataSource&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- httpClient: HTTPClient&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsBy(keywords: [String]): [NewsItemDTO&lt;span style=&quot;background-color: initial;&quot;&gt;]&lt;/span&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="690" y="305" width="280" height="80" as="geometry" />
+          <mxGeometry x="690" y="445" width="280" height="80" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-10" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-9" target="0NATmoiwucTb0jTTR6yO-7" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="940" y="344.5" as="sourcePoint" />
-            <mxPoint x="1010" y="344.5" as="targetPoint" />
+            <mxPoint x="940" y="484.5" as="sourcePoint" />
+            <mxPoint x="1010" y="484.5" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-11" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;HTTPClient&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ makeRequest(endpoint: Endpoint): Data&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="700" y="440" width="260" height="72" as="geometry" />
+          <mxGeometry x="700" y="580" width="260" height="72" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-12" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-9" target="0NATmoiwucTb0jTTR6yO-11" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="1040" y="500" as="sourcePoint" />
-            <mxPoint x="1040" y="553" as="targetPoint" />
+            <mxPoint x="1040" y="640" as="sourcePoint" />
+            <mxPoint x="1040" y="693" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-13" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ApiManager: HTTPClient&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- networkHandler: NetworkHandler&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ makeRequest(endpoint: Endpoint): Data&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="380" y="436" width="262" height="80" as="geometry" />
+          <mxGeometry x="380" y="576" width="262" height="80" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-14" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-13" target="0NATmoiwucTb0jTTR6yO-11" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="632" y="620" as="sourcePoint" />
-            <mxPoint x="700" y="620" as="targetPoint" />
+            <mxPoint x="632" y="760" as="sourcePoint" />
+            <mxPoint x="700" y="760" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-15" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;NetworkHandler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ requestDataAPI(url: URLRequest): Data&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="380" y="570" width="260" height="72" as="geometry" />
+          <mxGeometry x="380" y="710" width="260" height="72" as="geometry" />
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-16" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-13" target="0NATmoiwucTb0jTTR6yO-15" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="691" y="660" as="sourcePoint" />
-            <mxPoint x="690" y="715" as="targetPoint" />
+            <mxPoint x="691" y="800" as="sourcePoint" />
+            <mxPoint x="690" y="855" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-17" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="0NATmoiwucTb0jTTR6yO-18" target="0NATmoiwucTb0jTTR6yO-15" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="330" y="596" as="sourcePoint" />
-            <mxPoint x="360" y="700" as="targetPoint" />
+            <mxPoint x="330" y="736" as="sourcePoint" />
+            <mxPoint x="360" y="840" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="0NATmoiwucTb0jTTR6yO-18" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center;&quot;&gt;&lt;b&gt;URLSessionNetworkHandler: NetworkHandler&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ requestDataAPI(url: URLRequest): Data&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="40" y="576" width="290" height="60" as="geometry" />
+          <mxGeometry x="40" y="716" width="290" height="60" as="geometry" />
         </mxCell>
         <mxCell id="AAN17OjBgr-JhuDf9drN-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NewsViewModel&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&amp;nbsp;- useCase: GetNewsByKeyword&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ news: [NewsItem]&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getNewsBy(keywords: [String])&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1660" y="40" width="250" height="100" as="geometry" />
+          <mxGeometry x="1810" y="26" width="250" height="100" as="geometry" />
         </mxCell>
-        <mxCell id="AAN17OjBgr-JhuDf9drN-2" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="AAN17OjBgr-JhuDf9drN-1" target="0NATmoiwucTb0jTTR6yO-1" edge="1">
+        <mxCell id="AAN17OjBgr-JhuDf9drN-2" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="AAN17OjBgr-JhuDf9drN-1" target="yOiQkQ9hdH8P5RBFunZn-1" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="2130" y="650" as="sourcePoint" />
-            <mxPoint x="1650" y="100" as="targetPoint" />
+            <mxPoint x="2130" y="790" as="sourcePoint" />
+            <mxPoint x="1650" y="240" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="AAN17OjBgr-JhuDf9drN-3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NewsView&lt;/b&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&amp;nbsp;- viewmodel: NewsViewModel&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&amp;nbsp;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1980" y="55" width="250" height="70" as="geometry" />
+          <mxGeometry x="2130" y="41" width="250" height="70" as="geometry" />
         </mxCell>
         <mxCell id="AAN17OjBgr-JhuDf9drN-4" value="" style="endArrow=open;endFill=1;endSize=12;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="AAN17OjBgr-JhuDf9drN-3" target="AAN17OjBgr-JhuDf9drN-1" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="2150" y="650" as="sourcePoint" />
-            <mxPoint x="2310" y="650" as="targetPoint" />
+            <mxPoint x="2300" y="636" as="sourcePoint" />
+            <mxPoint x="2460" y="636" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yOiQkQ9hdH8P5RBFunZn-1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;GetNewsByKeywordUseCase&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ getNewsBy(keywords: [String]): [&lt;/span&gt;NewsItem&lt;span style=&quot;background-color: initial;&quot;&gt;]&lt;/span&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="1431.88" y="40" width="252.5" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="yOiQkQ9hdH8P5RBFunZn-3" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="0NATmoiwucTb0jTTR6yO-1" target="yOiQkQ9hdH8P5RBFunZn-1">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1290" y="350" as="sourcePoint" />
+            <mxPoint x="1450" y="350" as="targetPoint" />
           </mxGeometry>
         </mxCell>
       </root>
