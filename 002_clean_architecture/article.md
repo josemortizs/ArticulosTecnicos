@@ -181,12 +181,17 @@ Veamos ahora, mediante un diagrama UML, un resumen simplificado de una posible a
 
 ![Imagen del caso de uso y su interface](images/uml2.png)
 
-Nos encontramos en la capa de dominio, hemos creado nuestro caso de uso **GetNewsByKeywordUseCase**. ¿Cuál es su responsabilidad?, este caso de uso se ocupa de preparar los datos para aplicar correctamente la lógica de negocio. Por ejemplo, podría recibir los datos y, para cumplir con nuestra lógica de negocio, ordenarlos en base a una determinada propiedad: nombre, publicación...  
+Nos encontramos en la capa de dominio, hemos creado nuestro caso de uso **GetNewsByKeywordUseCase**. ¿Cuál es su responsabilidad?, este caso de uso se ocupa de preparar los datos para aplicar correctamente la lógica de negocio. Por ejemplo, podría recibir los datos y, para cumplir con dicha lógica, ordenarlos en base a una determinada propiedad: nombre, publicación...  
 
 También podría ocuparse de filtrar los artículos para excluir aquellos cuyo contenido se considerase inapropiado, etc. En resumen, una vez obtenidos los datos los tendría listos para ser devueltos a quien los requiriese.   
 
 - Un momento, ¿no tiene demasiadas responsabilidades?, ¿tiene que ocuparse de recibir los datos y prepararlos en base a nuestras reglas de negocio?...  
     - Bien visto, pero para la obtención de datos se apoya en lo que convencionalmente denominamos repositorio. Será a dicho repositorio al que le solicitaremos los datos correspondientes, delegando esa responsabilidad en éste y manteniendo nuestro principio de responsabilidad única. Además nuestra dependencia del repositorio está invertida, por lo que especificamos de forma abstracta a la capa superior qué necesitamos, pero sin especificar ningún tipo de implementación. De esta forma dependemos de una abstracción, no de ninguna implementación concreta que rompa nuestra regla de la dependencia. 
+
+> En el principio SOLID **Inversión de la dependencia**, en muchas ocasiones, se hace referencia a que los módulos de alto nivel no deberían depender de los módulos de bajo nivel y que, ambos, deberían depender de abstracciones. 
+>
+> Con módulos de alto nivel se refieren a nuestra lógica de dominio, nuestra reglas de negocio, nuestras entidades...
+> Nos indica que estos módulos no deberían de depender, por ejemplo, de componentes de la capa de infraestructura como la interfaz de usuario o la base de datos.
 
 ### Adapters -> Repository
 
@@ -234,10 +239,61 @@ Bien, volvamos a la capa de adaptadores, pero veamos qué tenemos a la derecha d
 
 ### Adapters -> Presenters
 
-![Capa de presentadores, muestra un ViewModel](images/uml5.jpg)
+![Capa de presentadores, muestra un ViewModel](images/uml5.png)
 
 En el otro lado del flujo de datos nos encontramos con los presenters. Al igual que hacían en la capa de repositorios aquí también actúan de intermediarios entre los casos de uso y, en este caso, la interfaz de usuario. 
 
 Los presenters reciben los datos de los casos de  uso y los preparan para su uso en la interfaz de usuario correspondiente, en nuestro caso vistas de SwiftUI o Composables de Jetpack Compose. Con esto se garantiza que la vista reciba solo los datos que necesita y en el formato que los necesita. 
 
-// TODO: Cambiar imagen y adaptar texto
+Para seguir cumpliendo con la regla de **depender de abstracciones y no de implementaciones** la dependencia que tiene el  viewmodel con el caso de uso también lo hace sobre una abstracción, no sobre una implementación concreta de dicho caso de uso.
+
+### Infraestructure -> UI
+
+![Capa de infraestructura, muestra la vista](images/uml6.png)
+
+Para completar con nuestra arquitectura llegaríamos a la capa de infraestructura por la parte de la interfaz de usuario. En este ejemplo sería una View de SwiftUI o un Composable de Jetpack Compose. 
+
+Y con esto habríamos completado nuestra arquitectura limpia para un feature en concreto. En la siguiente sección hablaremos de algunas cuestiones a valorar. 
+
+## Problemas y rupturas de la arquitectura
+
+En la parte de la interfaz gráfica, donde se encuentran el caso de uso, el viewmodel y la vista, se sigue cumpliendo estrictamente la regla de la dependencia, en concreto: 
+- El caso de uso, en la capa de dominio, no conoce al ViewModel y no tiene ninguna dependencia con éste. 
+- El ViewModel, en la capa de adaptadores, no conoce a la View, no tiene acoplamiento a ésta.
+- La View, en la capa de Infraestructure usa el ViewModel que tiene en una capa más interna, por lo que no hay ningún problema. 
+
+Pero sí que nos encontramos con un problema, al menos en el caso de una implementación con SwiftUI. Y es el framework de reactividad. 
+
+En las primeras versiones de SwiftUI podría tratarse de Combine, de Observation para iOS 17 en adelante o incluso, Steve Wozniak no lo quiera, una librería de terceros. 
+
+La cuestión a tener en cuenta es que este ViewModel en la capa de Adaptadores no debería estar acoplado a un detalle de la infraestructura. ¿Podría resolverse?, sí, podría crearse un componente intermedio que no contuviese información al respecto del framework reactivo. 
+
+Dicho componente usaría el caso de uso para obtener la información. ¿Cómo se comunicaría con el ViewModel?, de nuevo mediante inversión de la dependencia. 
+
+Se me ocurren varias formas, por ejemplo, mediante el patrón protocolo delegado, haciendo que el ViewModel lo implementase. Los ViewModel, en SwiftUI, son clases así que no habría problema en que el composition root usase una referencia de dicho ViewModel y lo inyectase como delegado. En el proyecto de ejemplo que adjunto a este artículo hay una rama en la que creo este componente intermedio. 
+
+También podríamos usar el patrón observer, de nuevo una combinación de pasos por referencia y protocolos haría posible resolver el problema. 
+
+Pero en este caso he optado por no agregarla. ¿Por qué?, decisión de arquitectura, no lo he creído conveniente. O más bien, no he visto que aporte el valor suficiente para compensar la complejidad extra. 
+
+Y aquí es dónde vienen las malas caras, ¿cuánto de puristas queremos ser?, o como se dice en mi pueblo, ¿queremos ser más papistas que el papa?
+
+Cada desarrollador encargado de crear la arquitectura de un proyecto tendrá que enfrentarse a estas decisiones y deberá valorar muchas cosas antes de optar por un camino u otro. Por ejemplo:
+
+- **Complejidad del dominio:** sistemas con lógica de negocio compleja pueden requerir más capas para asegurar una separación clara de responsabilidades y facilitar el mantenimiento.
+- **Volumen y variabilidad de los requisitos:** proyectos con requisitos cambiantes o en evolución pueden beneficiarse de una arquitectura más modular que permita adaptaciones rápidas sin afectar otras partes del sistema.
+- **Experiencia y habilidades del equipo de desarrollo:** un diseño más simple puede ser preferible si el equipo no tiene experiencia profunda en arquitecturas multicapa.
+- **Tiempo de desarrollo disponible:** la disponibilidad de tiempo para el desarrollo puede influir en la complejidad de la arquitectura elegida.
+- **Presupuesto:** los recursos financieros disponibles pueden determinar las herramientas y tecnologías accesibles, así como la posibilidad de implementar una arquitectura más compleja.
+
+Y aquí me vais a permitir que divague y use un símil deportivo. En Voleibol muchos entrenadores tienden a cometer el error de adaptar sus equipos a un sistema táctico concreto cuando lo más lógico, útil y eficiente es adaptar dicho sistema táctico a tu equipo, potenciando así sus virtudes y tratando de corregir, en la medida de lo posible, sus defectos. 
+
+Soy un firme defensor de que sucede lo mismo con la arquitectura. Dentro de unos estándares de calidad mínimos, posiblemente la mejor arquitectura sea la que mejor se adapte a tu proyecto en concreto, requisitos, equipo, disponibilidad de tiempo, etc. 
+
+Por ejemplo, [Julio César Fernández](https://www.linkedin.com/in/jcfmunoz/), de [Apple Coding](https://acoding.academy/), presentó en uno de sus vídeos la arquitectura que él consideraba que mejor se adaptaba a un proyecto actual con SwiftUI. 
+
+Definió las bases de lo que ha llamado su Apple Coding Clean Architecture, de nuevo en base a su experiencia como desarrollador en entornos Apple. Experiencia que, dicho sea de paso, no es poca.
+
+Obviamente tuvo que aguantar los típicos comentarios sobre que no se trataba de una arquitectura limpia, que rompía las reglas, etc, etc...
+
+Así que estad tranquilos sabiendo que hagáis lo que hagáis os van a criticar. Vuestra arquitectura perfecta nunca lo va a ser para todo el mundo.
