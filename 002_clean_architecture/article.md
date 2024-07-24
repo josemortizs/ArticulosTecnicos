@@ -2,7 +2,13 @@
 
 Se dice que una arquitectura es limpia cuando consigue una exitosa separación entre la lógica de negocio y los detalles de la infraestructura. Dicha separación se consigue mediante capas, una fuerte aplicación de los principios SOLID y un estricto cumplimiento de lo que llamaremos "La regla de la dependencia". Hablaremos de ella más adelante.
 
-Según Robert C. Martin, Uncle Bob, estas arquitecturas generan sistemas, productos, que son: 
+Acoplar la lógica de negocio y los detalles de infraestructura lleva siendo un problema desde que empezamos a desarrollar software, no es algo nuevo. Este movimiento no ha surgido en los últimos 10 años debido al purismo de algunos desarrolladores. No, el senior no está intentando ponértelo más difícil...
+
+Este problema ya existía cuando los programadores escribían software que leía información de tarjetas perforadas. ¿Qué creéis que pasaba cuando les pedían cambiar dicho programa para que ahora leyese la información de una cinta magnética?...
+
+La **"Clean Architecture"** nace en 2012 con una fuerte influencia de la **Arquitectura Hexagonal**, propuesta en 2005 por **Alistair Cockburn**. 
+
+Estas arquitecturas generan sistemas, productos, que son: 
 1. Independientes del framework usado.
 2. Con unas reglas comerciales que deben poder ser medibles sin depender de la interfaz del usuario, base de datos, servidor web, etc.
 3. Independientes de dicha interfaz de usuario. De hecho, ésta, debería poder ser intercambiable sin afectar a las reglas comerciales, a la anteriormente citada lógica de negocio.
@@ -11,7 +17,7 @@ Según Robert C. Martin, Uncle Bob, estas arquitecturas generan sistemas, produc
 
 > En resumen: Las reglas de negocio no deben de conocer nada de los detalles de infraestructura, para así no depender de estos. 
 
-Más en detalle...
+Centrémonos en nuestra arquitectura limpia más en detalle...
 
 ## Lógica de negocio
 
@@ -39,7 +45,7 @@ En su artículo de referencia, [aquí](https://blog.cleancoder.com/uncle-bob/201
 
 ¿Cómo podríamos llevarnos esta *clean architecture* a nuestro proyecto con SwiftUI o Jetpack Compose?, montémoslo paso a paso.
 
-### Core
+### Core layer (Entities)
 ---
 
 Contendría el código más estático, aquel del que va a depender el resto. Todas las capas exteriores van a depender de ésta, estarán acopladas a ella, por lo que cualquier cambio en esta capa tendrá repercusiones en el resto de capas de nuestra arquitectura. 
@@ -61,7 +67,9 @@ Nuestos modelos de dominio también los encontrarás citados, aquí o en otros a
 
 ![Capa core](images/CoreLayer.png)
 
-Los componentes de esta capa solo pueden tener dependencias entre ellos, tanto de los modelos como de los servicios, ya que están en la misma capa. Como podemos apreciar en esta representación, nuestra capa **core** no conoce nada fuera de su capa, no hay una capa inferior de la que dependa.
+¿Os dice poco esta representación?, puede que sí. Pero quiero que entendáis que para los componentes de esta capa su mundo es este. Los componentes de esta capa solo pueden tener dependencias entre ellos, tanto de los modelos como de los servicios, ya que están en la misma capa. 
+
+Como podemos apreciar en esta representación, nuestra capa **core** no conoce nada fuera de su capa, no hay una capa inferior de la que dependa ni exterior de la que tenga conocimiento. 
 
 ¿Qué tipo de acoplamiento podríamos tener en esta capa?, pues por ejemplo: la abstracción *CreditCard* podría tener una dependencia con *Movements* al tener que gestionar una colección de éstos.
 
@@ -142,10 +150,6 @@ Nadie espera tener que modificar las ruedas de una bicicleta, o el sistema de fr
 
 > Esta capa tiene la misma particularidad que la capa adaptadores, aunque las vistas están en la misma capa que los *data sources* éstos no se *"conocen"*, no tienen dependencias entre ellos ni por herencia ni por composición. En resumen, no están acoplados entre ellos. 
 
-Acoplar la lógica de negocio y los detalles de infraestructura lleva siendo un problema desde que empezamos a desarrollar software, no es algo nuevo. Este movimiento no ha surgido en los últimos 10 años debido al purismo de algunos desarrolladores. No, el senior no está intentando ponértelo más difícil...
-
-Este problema ya existía cuando los programadores escribían software que leía información de tarjetas perforadas. ¿Qué creéis que pasaba cuando les pedían cambiar dicho programa para que ahora leyese la información de una cinta magnética?...
-
 ## Ventajas e inconvenientes
 
 ### Ventajas
@@ -157,12 +161,10 @@ Este problema ya existía cuando los programadores escribían software que leía
 **Adaptabilidad:** Es más fácil adaptar la aplicación a nuevas tecnologías ya que los cambios en los detalles de la infraestructura no afectarán a la lógica de negocio, capa de dominio, etc.  
 **Reutilización de código:** Los componentes independendientes pueden ser reutilizados en otros proyectos.  
 
-
 ### Inconvenientes
 
 **Curva de aprendizaje:** Puede ser complicado de aprender y entender para desarrolladores juniors.  
 **Sobrecarga inicial:** La configuración y la estructura inicial pueden ser más complejas y consumir más tiempo que otras arquitecturas más simples.  
-**Sobreingeniería:** En aplicaciones pequeñas puede resultar en una sobreingeniería que no justifique los resultados obtenidos.  
 **Dificultad de implementación:** Requiere de desarrolladores con experiencia y un equipo disciplinado que siga las prácticas y principios establecidos.  
 
 ## Flujo y responsabilidades
@@ -173,7 +175,7 @@ Cuando, en este mismo artículo en la sección de Adaptadores, hablábamos del f
 
 > No hay una única manera de estructurar una arquitectura limpia, en base a la experiencia del desarrollador, a los requisitos de la aplicación, herramientas a usar, etc, nos podremos encontrar con una u otra forma. Por ejemplo, los DataSources, de los cuales veréis un ejemplo más adelante, hay desarrolladores que los "implementan" en la capa de adaptadores mientras que otros lo hacen en la de infraestructura. Al tratarse de una separación "lógica" puede no tener ninguna repercusión más allá de ubicarse en una estructura jerárquica de carpetas u otra. Mientras se respete la regla de la dependencia no debería haber ningún problema. En mi humilde opinión, si conoce información de infraestructura, como por ejemplo, datos muy concretos de cómo montar los endpoints de llamadas a apis debería estar en infraestructura. 
 
-Veamos ahora, mediante un diagrama UML, un resumen simplificado de una posible arquitectura limpia para un caso de uso en concreto. Imaginemos que queremos crear una aplicación de noticias. Uno de nuestros casos de uso principales es el de obtener un listado de noticias recientes en base a una palabra clave. ¿Cómo podríamos dividirlo?, veamos un ejemplo:
+Veamos ahora, mediante un diagrama UML, un resumen simplificado de una posible arquitectura limpia para un caso de uso en concreto. Imaginemos que queremos crear una aplicación de noticias. Uno de nuestros casos de uso principales es el de obtener un listado de noticias recientes en base a palabras clave. ¿Cómo podríamos dividirlo?, veamos un ejemplo:
 
 ![Esquema UML del caso de uso de obtención de noticias en base a una palabra clave](images/uml1.png)
 
@@ -181,7 +183,7 @@ Veamos ahora, mediante un diagrama UML, un resumen simplificado de una posible a
 
 ![Imagen del caso de uso y su interface](images/uml2.png)
 
-Nos encontramos en la capa de dominio, hemos creado nuestro caso de uso **GetNewsByKeywordUseCase**. ¿Cuál es su responsabilidad?, este caso de uso se ocupa de preparar los datos para aplicar correctamente la lógica de negocio. Por ejemplo, podría recibir los datos y, para cumplir con dicha lógica, ordenarlos en base a una determinada propiedad: nombre, publicación...  
+Nos encontramos en la capa de dominio, hemos creado nuestro caso de uso **GetNewsByKeywordsUseCase**. ¿Cuál es su responsabilidad?, este caso de uso se ocupa de preparar los datos para aplicar correctamente la lógica de negocio. Por ejemplo, podría recibir los datos y, para cumplir con dicha lógica, ordenarlos en base a una determinada propiedad: nombre, publicación...  
 
 También podría ocuparse de filtrar los artículos para excluir aquellos cuyo contenido se considerase inapropiado, etc. En resumen, una vez obtenidos los datos los tendría listos para ser devueltos a quien los requiriese.   
 
@@ -190,30 +192,30 @@ También podría ocuparse de filtrar los artículos para excluir aquellos cuyo c
 
 > En el principio SOLID **Inversión de la dependencia**, en muchas ocasiones, se hace referencia a que los módulos de alto nivel no deberían depender de los módulos de bajo nivel y que, ambos, deberían depender de abstracciones. 
 >
-> Con módulos de alto nivel se refieren a nuestra lógica de dominio, nuestra reglas de negocio, nuestras entidades...
+> Con módulos de alto nivel se refieren a nuestra lógica de dominio, nuestra reglas de negocio, nuestras entidades. Son aquellas que están lo más alejadas de la entrada - salida de datos.
 > Nos indica que estos módulos no deberían de depender, por ejemplo, de componentes de la capa de infraestructura como la interfaz de usuario o la base de datos.
 
 ### Adapters -> Repository
 
 ![Imagen del repositorio y su interface](images/uml3.png)
 
-Pasamos a la capa Adaptadores y nos encontramos con una clase que implementa el protocolo, la interface, GetNewsByKeyword. ¿Qué nos indica?, que puede ser inyectada como dependencia en la clase GetNewsByKeywordUseCase. Y de esta forma cumplimos, una vez más con nuestra regla de la dependencia. GetNewsByKeywordUseCase no "conoce" nada de su capa superior, no "sabe" nada de NewsRepository o ApiDataSource. Ni lo necesita, y eso es fantástico, ¿por qué?, porque no está acoplado a nada de esta capa Adaptadores. Cualquier cambio que se realice en dicha capa podrá afectar a componentes de su misma capa o de su capa más superficial, infraestructura, pero nunca a la capa de dominio. No es magia, es una buena arquitectura.  
+Pasamos a la capa Adaptadores y nos encontramos con una clase que implementa el protocolo, la interface, GetNewsByKeywords. ¿Qué nos indica?, que puede ser inyectada como dependencia en la clase GetNewsByKeywordsUseCase. Y de esta forma cumplimos, una vez más con nuestra regla de la dependencia. GetNewsByKeywordsUseCase no "conoce" nada de su capa superior, no "sabe" nada de NewsRepository o ApiDataSource. Ni lo necesita, y eso es fantástico, ¿por qué?, porque no está acoplado a nada de esta capa Adaptadores. Cualquier cambio que se realice en dicha capa podrá afectar a componentes de su misma capa o de su capa más superficial, infraestructura, pero nunca a la capa de dominio. No es magia, es una buena arquitectura.  
 
 En esta capa, adaptadores, se encuentran los componentes que se encargan de convertir los datos que nos provee la capa de infraestructura, los convencionalmente llamados DTOs, en los modelos de datos que requieren nuestras casos de uso, normalmente llamados Entities, Data Models, etc. También a la inversa, estos componentes se ocuparán de crear, mediante los modelos de datos de dominio, los datos más convenientes para la base de datos de turno, api rest o similar.  
 
 ¿Responsabilidades de esta clase NewsRepository?, obtener los datos de la fuente externa que toque, en sus modelos, y convertirlos en nuestros modelos de dominio. A esta operación la solemos llamar mapear.   
 
-De nuevo, ¿dos responsabilidades?, no. Para la obtención de los datos en bruto del servicio, base de datos, etc, se apoya en un DataSource, una clase que se encarga de esa responsabilidad. Y aunque no lo he especificado para no agregar más complejidad al ejemplo, también el proceso de mapeo sería delegado en otra clase...
+De nuevo, ¿dos responsabilidades?, no. Para la obtención de los datos en bruto del servicio, base de datos, almacenamiento local, etc, se apoya en un DataSource, una clase que se encarga de esa responsabilidad. Y aunque no lo he especificado para no agregar más complejidad al ejemplo, también el proceso de mapeo sería delegado en otra clase...
 
-> Para más información sobre este tipo de clases se pueden revisar los patrones de diseño Facade y Adapter, pues comparte similitudes con ambos. 
+> Para más información sobre este tipo de clases se pueden revisar los patrones de diseño **Facade** y **Adapter**, pues comparte similitudes con ambos. 
 
-¿Cómo realizamos la relación entre la clase NewsRepository y los componentes de su capa más exterior?, también mediante inversión de dependencias. La interface ApiDataSource declara lo que la clase NewsRepository necesita y se "olvida" de su capa superior, no es su problema.
+¿Cómo realizamos la relación entre la clase NewsRepository y los componentes de su capa más externa?, también mediante inversión de dependencias. La interface ApiDataSource declara lo que la clase NewsRepository necesita y se "olvida" de su capa superior, no es su problema.
 
 La capa superior tendrá la responsabilidad de crear un componente que pueda cubrir la necesidad impuesta por la interface ApiDataSource. Y este componente, sea cual sea, podrá ser inyectado como dependencia en NewsRepository. Pero NewsRepository no sabrá qué implementación concreta está siendo inyectada, por lo que no estará acoplada a ella y una futura modificación de esta nunca podrá afectarle. No podrá afectar a nada de la capa de dominio, ni casos de uso, ni entidades. Estoy repitiendo algo que he comentado tres párrafos más arriba, ¡porque es vital que se entienda!.  
 
 > Said Rehouni, en su [canal de youtube](https://www.youtube.com/@SaidRehouni) y su [curso sobre clean architecture](https://www.youtube.com/watch?v=nILL3UXrMS0) advierte ante la creación de repositorios masivos en los que se acumulen la resolución de las necesidades de todos los casos de uso asociados a una misma feature. Habla sobre que esto crea una mayor dificultad para testear dichos repositorios, mockearlos y que hace que incumplan el principio de responsabilidad única. 
 >
-> Este principio nos dice que una clase solo debería tener un motivo para cambiar. Si dicho repositorio está gestionando todos los casos de uso de una misma feature, con sus distintos modelos de datos, etc, es muy posible que sea susceptible a cambiar con cada una de las modificaciones que puedan realizarse en cada uno de estos modelos de datos. 
+> Este principio nos dice que una clase solo debería tener un motivo para cambiar. Si dicho repositorio está gestionando todos los casos de uso de una misma feature, con sus distintos modelos de datos, etc, es muy posible que sea susceptible a cambiar con cada una de las modificaciones que puedan realizarse en éstos. 
 >
 > Para estos casos recomienda crear distintos **repositories** para atender a una misma feature. 
 
