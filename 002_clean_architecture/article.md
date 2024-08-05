@@ -245,15 +245,25 @@ Bien, volvamos a la capa de adaptadores, pero veamos qué tenemos a la derecha d
 
 En el otro lado del flujo de datos nos encontramos con los presenters. Al igual que hacían en la capa de repositorios aquí también actúan de intermediarios entre los casos de uso y, en este caso, la interfaz de usuario. 
 
-Los presenters reciben los datos de los casos de  uso y los preparan para su uso en la interfaz de usuario correspondiente, en nuestro caso vistas de SwiftUI o Composables de Jetpack Compose. Con esto se garantiza que la vista reciba solo los datos que necesita y en el formato que los necesita. 
+Los presenters reciben los datos de los casos de  uso y los preparan para ser "consumidos" en la interfaz de usuario correspondiente, en nuestro caso vistas de SwiftUI o Composables de Jetpack Compose. Con esto se garantiza que la vista reciba solo los datos que necesita y en el formato que los necesita. En una arquitectura MVVM el papel del presenter, y sus responsabilidades, es asumido por los ViewModels. 
 
-Para seguir cumpliendo con la regla de **depender de abstracciones y no de implementaciones** la dependencia que tiene el  viewmodel con el caso de uso también lo hace sobre una abstracción, no sobre una implementación concreta de dicho caso de uso.
+Para seguir cumpliendo con la regla de **depender de abstracciones y no de implementaciones** la dependencia que tiene el viewmodel con el caso de uso también lo hace sobre una abstracción, no sobre una implementación concreta de dicho caso de uso. 
+
+Para el trabajo con estos presentadores nos encontramos con el uso de un patrón conocido como **Patrón del objeto modesto**. Según **Uncle Bob**, en su libro **Arquitectura limpia**: 
+
+> "El patrón del objeto modesto es un patrón de diseño originalmente identificado como forma de ayudar a los comprobadores de unidad a separar comportamientos difíciles de probar de comportamientos fáciles de probar. La idea es muy sencilla: separa los comportamientos en dos módulos o clases. Uno de esos módulos es modesto; contiene todos los comportamientos difíciles de probar, reducidos a su esencia más básica. El otro modulo contiene todos los comportamientos comprobables que se extraen del objeto modesto."
+>
+> **xUnit Patterns**, Meszaros, Addison-Wesley, 2007, p 695.
+
+En otras palabras, es un concepto que se aplica en diseño de software para mejorar la testabilidad y separación de responsabilidades. En el contexto de una aplicación con Jetpack Compose o SwiftUI nuestro **Objeto rico** sería nuestro viewmodel, que manejaría la logica de negocio y cuyo código sería muy sencillo de testear de forma independiente. Cualquier flag, publicador, enrutado, etc, que se quiera testear puede hacerse de forma mucho mas sencilla en un viewmodel que en una vista, por lo que esta, y su lógica, se reducen a su mínima expresión, actuando así como **Objeto modesto**.
 
 ### Infraestructure -> UI
 
 ![Capa de infraestructura, muestra la vista](images/uml6.png)
 
-Para completar con nuestra arquitectura llegaríamos a la capa de infraestructura por la parte de la interfaz de usuario. En este ejemplo sería una View de SwiftUI o un Composable de Jetpack Compose. 
+Para completar con nuestra arquitectura llegaríamos a la capa de infraestructura por la parte de la interfaz de usuario. En este ejemplo trataríamos con una View de SwiftUI o un Composable de Jetpack Compose. Ambos actuando como **Objeto modesto** de nuestro patrón, citado en la sección anterior. 
+
+Sus funciones serían renderizar la interfaz de usuario y "capturar" los eventos de acción del mismo, pero delegando luego sus "consecuencias" a las capas más internas. 
 
 Y con esto habríamos completado nuestra arquitectura limpia para un feature en concreto. En la siguiente sección hablaremos de algunas cuestiones a valorar. 
 
@@ -299,3 +309,5 @@ Definió las bases de lo que ha llamado su Apple Coding Clean Architecture, de n
 Obviamente tuvo que aguantar los típicos comentarios sobre que no se trataba de una arquitectura limpia, que rompía las reglas, etc, etc...
 
 Así que estad tranquilos sabiendo que hagáis lo que hagáis os van a criticar. Vuestra arquitectura perfecta nunca lo va a ser para todo el mundo.
+
+Algunos de los patrones y comportamientos que aquí se definen ya los estaréis usando, muchas veces sin conocer su **nombre artístico**. En mi caso, por ejemplo, yo no conocía **El patrón del objeto modesto**. Pero gracias a un debate con un compañero de **SNGULAR**, Jorge Marciel, ya hace tiempo que lo usábamos en la implementación de una vista y un view-model. Ninguno conocíamos el patrón, pero creímos que era la mejor forma de solucionar ese problema. 
