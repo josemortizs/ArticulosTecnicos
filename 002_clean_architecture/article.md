@@ -311,3 +311,15 @@ Obviamente tuvo que aguantar los típicos comentarios sobre que no se trataba de
 Así que estad tranquilos sabiendo que hagáis lo que hagáis os van a criticar. Vuestra arquitectura perfecta nunca lo va a ser para todo el mundo.
 
 Algunos de los patrones y comportamientos que aquí se definen ya los estaréis usando, muchas veces sin conocer su **nombre artístico**. En mi caso, por ejemplo, yo no conocía **El patrón del objeto modesto**. Pero gracias a un debate con un compañero de **SNGULAR**, Jorge Marciel, ya hace tiempo que lo usábamos en la implementación de una vista y un view-model. Ninguno conocíamos el patrón, pero creímos que era la mejor forma de solucionar ese problema. 
+
+## Límites arquitectónicos, límites parciales e interfaces Boundary
+
+A la hora de implementar una arquitectura limpia es necesario conocer la diferencia entre los límites arquitectónicos y los límites parciales.  
+
+Los límites arquitectónicos son las fronteras que separan las diferentes capas del sistema. Éstos requieren de interfaces Boundary polimórficas, estructuras de datos de entrada - salida y, en resumen, todos aquellos componentes que consiguen que dichas capas se puedan compilar de forma independiente. 
+
+Los límites parciales se refieren a una separación de responsabilidades dentro de un mismo sistema, en incluso capa, pero de una manera más granular y localizada. No exigen necesariamente la división completa de capas como sí lo hacen los límites arquitectónicos. Ante la duda de si la creación de ese límite arquitectónico es necesaria o no, el desarrollador puede optar por incluir un límite parcial, pudiendo transformar éste en un futuro si fuese necesario. 
+
+Obviamente este tipo de límite no otorga independencia y cualquier cambio realizado en estos límites afecta al resto, debe recompilarse, etc. El proyecto de prueba que adjunto, para iOS, consta de este tipo de límite parcial. Para convertirlo a una versión que usase límites arquitectónicos tendríamos que usar paquetes, librerías tipo CocoaPods, Carthage, etc. 
+
+> Las interfaces Boundary son un concepto específico de las arquitecturas limpias que surge al definir las interacciones entre diferentes capas a través de distintos límites arquitectónicos. Definen los contratos que regularán las comunicaciones entre las distintas capas, respetando la regla de la dependencia mediante inversión de control, es decir, el componente que implementa la interfaz es inyectado en la capa que la define. Tenemos varios ejemplos en el artículo, por ejemplo la interface **ApiDataSource**.
