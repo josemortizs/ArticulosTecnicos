@@ -63,7 +63,7 @@ Esta capa no tiene ningún acoplamiento con una capa exterior, es más, no debe 
 
 > No confundir estos servicios de dominio con una clase que, por ejemplo, realice una petición de red para recibir el visto bueno a un préstamo, o a una transferencia, estos servicios de dominio engloban y abstraen nuestra lógica de negocio, nuestras reglas. No os preocupéis si no estáis familiarizados con estos términos, terminaremos entendiéndolos mejor con los ejemplos. 
 
-Nuestos modelos de dominio también los encontrarás citados, aquí o en otros artículos, charlas, etc, como **Entities** o **Data Objects**. Veamos una representación de esta capa.
+Nuestros modelos de dominio también los encontrarás citados, aquí o en otros artículos, charlas, etc, como **Entities** o **Data Objects**. Veamos una representación de esta capa.
 
 ![Capa core](images/CoreLayer.png)
 
@@ -81,7 +81,7 @@ Esta capa contendría las reglas comerciales específicas de nuestra aplicación
 **¿Reglas comerciales?, ¿Reglas de negocio?, ¿de qué nos estás hablando?, veámoslo mejor con ejemplos...** 
 
 - Queremos que el usuario pueda realizar una transferencia a otra cuenta bancaria, las reglas de negocio podrían ser: 
-    - Impedir que intente realizar la transferencia si no tiene fondos suficientes
+    - Verificar que, un cliente, tiene fondos suficientes antes de intentar realizar una transferencia.
     - Verificar que la cuenta de destino tiene un formato correcto (20 dígitos)
     - Verificar que el IBAN de la cuenta es correcto (el IBAN se calcula en base al número de cuenta)
 
@@ -132,7 +132,7 @@ Esto quiere decir que esta capa de red desconoce estas implementaciones, por lo 
 ### Capa de infraestructura
 ---
 
-Al principio del artículo hablábamos sobre que había que separar la lógica de negocio de los detalles de la infraestructura. Hasta ahora habíamos visto la lágica de negocio, mediante sus capas contenedoras de las entidades y casos de uso. Y también habíamos hablado de una capa, adaptadores, que hacía de puente entre ésta y la capa de infraestructura. Hablemos ahora de ésta última.
+Al principio del artículo hablábamos sobre que había que separar la lógica de negocio de los detalles de la infraestructura. Hasta ahora habíamos visto dicha lógica mediante sus capas contenedoras de las entidades y casos de uso. También habíamos hablado de una capa, adaptadores, que hacía de puente entre ésta y la capa de infraestructura. Hablemos ahora de ésta última.
 
 Esta capa contendría todos los componentes relacionados con la interfaz de usuario, por ejemplo las vistas en Jetpack Compose - SwiftUI o XML - UIKit. Contendría las clases necesarias para realizar una llamada de red y obtener los datos que necesitamos inyectar en nuestros repositorios para que éstos, a su vez, lo hagan en los casos de uso. Para ello usaríamos URLSession, HttpURLConnection, Alamofire, OkHttp o similares. En caso de tener que persistir datos sería esta capa la que se encargaría de implementar la funcionalidad mediante una base de datos local (sqlite, room, coredata, swiftdata...)
 
@@ -236,6 +236,16 @@ Hablemos de **ApiManager**. Se trata de un componente de software cuya responsab
 En la parte más externa de nuestro diagrama encontramos una clase, **URLSessionNetworkHandler**, que implementaría el protocolo NetworkHandler y cuya responsabilidad sería la de hacer la petición http en base a la request recibida. La he llamado **URLSessionNetworkHandler** pero también podría haberse llamado **HttpConnectionNetworkHandler** o **OkHttpNetworkHandler**, etc...
 
 En este tipo de componentes es donde más fácil podemos ver la actuación como simples "plugins" de los componentes de la capa de infraestructura. Y podemos observar todas las ventajas de una buena abstracción y separación de responsabilidades. 
+
+¿Qué gran beneficio nos aportan estos "plugins"?, ¿por qué es tan importante que estos comportamientos estén abstraídos en sus propios adaptadores y colocados en la parte más externa de nuestra arquitectura?, veámoslo con un ejemplo: 
+
+Imagina que decidimos que sea cada viewmodel el que mediante URLSession, o la librería de turno, se encargue de las llamadas a nuestra API-REST. ¿Cuántos viewmodels puede tener una aplicación mediana cuya arquitectura sea MVVM?, ¿imaginas ahora el coste de una posible deprecación de URLSession?
+
+Y, ojo, el caso de URLSession sería el menos grave de todos, ya que se trata de una librería propia y nativa del sistema. ¿Te imaginas el coste del cambio de la librería de turno si ante un cambio de versión de Swift, por ejemplo a Swift 6, ésta dejase de funcionar?
+
+No es un caso muy remoto, he trabajado con librerías que no funcionaban con la última versión de XCode, otras cuyos componentes acabaron coincidiendo con componentes internos del propio lenguaje, etc...
+
+Una buena arquitectura no conseguirá que no tengas que reemplazar ese componente, pero reducirá considerablemente el coste del cambio.
 
 Bien, volvamos a la capa de adaptadores, pero veamos qué tenemos a la derecha de los casos de uso, hablemos de la capa de presentacion...
 
