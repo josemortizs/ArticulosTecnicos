@@ -245,7 +245,9 @@ Y, ojo, el caso de URLSession sería el menos grave de todos, ya que se trata de
 
 No es un caso muy remoto, he trabajado con librerías que no funcionaban con la última versión de XCode, otras cuyos componentes acabaron coincidiendo con componentes internos del propio lenguaje, etc...
 
-Una buena arquitectura no conseguirá que no tengas que reemplazar ese componente, pero reducirá considerablemente el coste del cambio.
+Una buena arquitectura no conseguirá que no tengas que reemplazar ese componente, pero reducirá considerablemente el coste del cambio. 
+
+Y podemos ir un poco más allá, un acoplamiento excesivo puede hacer casi imposible un cambio de framework. Por ejemplo, hay frameworks de backend que para que tus modelos de datos puedan ser correctamente interpretados te obligan a que dichos modelos hereden de una clase base propia del framework. En palabras de Uncle Bob, no hay un acoplamiento más fuerte que el de la herencia. Imagina, de nuevo, querer cambiar la librería mediante la que construyes tus endpoints cuando tienes todos y cada uno de éstos fuertemente acoplados al framework...
 
 Bien, volvamos a la capa de adaptadores, pero veamos qué tenemos a la derecha de los casos de uso, hablemos de la capa de presentacion...
 
@@ -278,6 +280,16 @@ Sus funciones serían renderizar la interfaz de usuario y "capturar" los eventos
 Y con esto habríamos completado nuestra arquitectura limpia para un feature en concreto. En la siguiente sección hablaremos de algunas cuestiones a valorar. 
 
 ## Problemas y rupturas de la arquitectura
+
+Hablando sobre arquitecturas límpias con uno de mis compañeros, Álvaro, nos planteábamos qué hacer con todos aquellos componentes que reutilizamos de un proyecto a otro. Poníamos el ejemplo del típico wrapper para trabajar con **Keychain** que no tiene por qué implementar un protocolo concreto ya que solo se utiliza como helper en distintos proyectos. 
+
+> Para el que no esté familiarizado con Keychain, es un sistema de gestión de contraseñas y almacenamiento seguro proporcionado por Apple. Es una API y un servicio de almacenamiento que permite a las aplicaciones guardar de manera segura información sensible como contraseñas, claves criptográficas, tokens de autenticación y otros datos privados.
+
+Bajo mi punto de vista, creo que lo correcto sería crear una extensión para dicho helper. Esta extensión sería la que implementaría los protocolos necesarios para que nuestro componente fuera inyectable donde fuese necesario sin tener que romper la regla de la dependencia. De este modo el Keychain Manager, o como quisiera llamarse, se habría extendido sin modificar su funcionalidad original y sin afectar a la misma, cumpliendo así nuestro principio SOLID Open-Close. 
+
+Otro de los puntos sobre los que debatimos era si tener un paquete de extensiones de Swift con distintas funcionalidades. En caso de tenerlo, ¿lo usamos en nuestra capa de dominio?, ¿no estamos incumpliendo con ello la regla de la dependencia?. ¿Declaramos las extensiones de Swift en nuestra capa de dominio cumpliendo así la regla de la dependencia pero haciendo estas extensiones no portables, al menos fácilmente, a otros proyectos?...
+
+Documentándome para este artículo encontré la ruptura de la arquitectura que considero más difícil de sortear, la de los viewmodels en SwiftUI, me explico:
 
 En la parte de la interfaz gráfica, donde se encuentran el caso de uso, el viewmodel y la vista, se sigue cumpliendo estrictamente la regla de la dependencia, en concreto: 
 - El caso de uso, en la capa de dominio, no conoce al ViewModel y no tiene ninguna dependencia con éste. 
@@ -328,8 +340,46 @@ A la hora de implementar una arquitectura limpia es necesario conocer la diferen
 
 Los límites arquitectónicos son las fronteras que separan las diferentes capas del sistema. Éstos requieren de interfaces Boundary polimórficas, estructuras de datos de entrada - salida y, en resumen, todos aquellos componentes que consiguen que dichas capas se puedan compilar de forma independiente. 
 
-Los límites parciales se refieren a una separación de responsabilidades dentro de un mismo sistema, en incluso capa, pero de una manera más granular y localizada. No exigen necesariamente la división completa de capas como sí lo hacen los límites arquitectónicos. Ante la duda de si la creación de ese límite arquitectónico es necesaria o no, el desarrollador puede optar por incluir un límite parcial, pudiendo transformar éste en un futuro si fuese necesario. 
+Los límites parciales se refieren a una separación de responsabilidades dentro de un mismo sistema, en incluso capas, pero de una manera más granular y localizada. No exigen necesariamente la división completa de capas como sí lo hacen los límites arquitectónicos. Ante la duda de si la creación de ese límite arquitectónico es necesaria o no, el desarrollador puede optar por incluir un límite parcial, pudiendo transformar éste en un futuro si fuese necesario. 
 
-Obviamente este tipo de límite no otorga independencia y cualquier cambio realizado en estos límites afecta al resto, debe recompilarse, etc. El proyecto de prueba que adjunto, para iOS, consta de este tipo de límite parcial. Para convertirlo a una versión que usase límites arquitectónicos tendríamos que usar paquetes, librerías tipo CocoaPods, Carthage, etc. 
+Obviamente este tipo de límite no otorga independencia y cualquier cambio realizado en estos límites afecta al resto, debiendo recompilarse, etc. El proyecto de prueba que adjunto, para iOS, consta de este tipo de límite parcial. Para convertirlo a una versión que usase límites arquitectónicos tendríamos que usar paquetes, librerías tipo CocoaPods, Carthage, etc. 
 
 > Las interfaces Boundary son un concepto específico de las arquitecturas limpias que surge al definir las interacciones entre diferentes capas a través de distintos límites arquitectónicos. Definen los contratos que regularán las comunicaciones entre las distintas capas, respetando la regla de la dependencia mediante inversión de control, es decir, el componente que implementa la interfaz es inyectado en la capa que la define. Tenemos varios ejemplos en el artículo, por ejemplo la interface **ApiDataSource**.
+
+## Organización de los paquetes en una arquitectura limpia
+
+En el contexto de las arquitecturas limpias (Clean Architecture) y el diseño modular del software, hay diferentes maneras de organizar los paquetes o módulos de un proyecto. Las tres formas más comunes son organizar paquetes por **capas**, por **función** y por **componente**.
+
+### Paquete por capa
+
+Se trata del mostrado en el ejemplo de este artículo. Como método de diseño es el más sencillo y, según Martin Fowler en "Presentation Domain Data Layering", una muy buena forma de empezar un proyecto. 
+
+Este es el enfoque más tradicional y está alineado con la arquitectura en capas. Se organiza el código según las capas lógicas de la aplicación: dominio, casos de uso, adaptadores, presentadores, infraestructura, etc.
+
+Al implementar este diseño obtendríamos un paquete por cada una de las capas que estuviesen divididas por límites arquitectónicos, pudiendo dejar límites parciales dentro de cada uno de los paquetes. 
+
+### Paquete por función
+
+En este enfoque, el código se organiza en torno a funcionalidades o características específicas de la aplicación. En lugar de agrupar clases por su rol en una capa específica, se agrupan por la funcionalidad que proporcionan. 
+
+Al implementar este diseño obtendríamos un solo paquete por cada "feature" del proyecto consiguiendo así una alta cohesión dentro del mismo. 
+
+### Paquetes por componente
+
+Este enfoque puede considerarse como una mezcla de los dos enfoques anteriores, ya que cada componente puede tener su propia estructura interna de capas o características. Aquí el código se organiza en componentes autónomos que representan subsistemas o módulos reutilizables dentro de la aplicación.
+
+Para verlo con un ejemplo, en el caso que hemos estado viendo durante el desarrollo de este artículo podríamos tener dos paquetes: 
+* Un paquete con la lógica de dominio, adaptadores e infraestructura de toda la parte de datos.
+* Un segundo paquete con la capa de presentación e infraestructura de la vista.
+
+De esta forma podríamos encapsular toda la parte del primer paquete que no nos interesase mostrar privatizando la visibilidad de los componentes, dejando con acceso público lo mínimo necesario. 
+
+Los paquetes por capa, función y componente son mucho más amplios que el simple resumen que pueda yo aportar aquí. Probablemente tengan contenido para otro artículo igual de largo que este. Me conformo con que sepáis que existen, al menos, estos tres tipos y podáis profundizar más en ellos si lo creéis conveniente. 
+
+## Conclusión
+
+En este artículo, hemos explorado los conceptos clave de las arquitecturas limpias y cómo aplicarlos en un proyecto. Hemos visto cómo la separación de responsabilidades y el desacoplamiento de las distintas capas de la aplicación pueden llevar a un código más mantenible, escalable y flexible.
+
+Aunque la implementación de la arquitectura limpia puede parecer compleja al principio es importante recordar que es un proceso iterativo, que requiere tiempo y práctica para dominar. Sin embargo, la recompensa es valiosa: un código base limpio y mantenible puede ahorrar tiempo y esfuerzo a largo plazo, y permitirnos enfocarnos en la creación de soluciones innovadoras y eficaces.
+
+En resumen, la arquitectura limpia es una práctica que nos permite crear aplicaciones robustas y escalables. Espero que este artículo haya sido de ayuda para ti, y que hayas aprendido algo nuevo y valioso para aplicar en tus proyectos futuros.
